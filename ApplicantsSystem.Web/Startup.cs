@@ -1,4 +1,6 @@
-﻿namespace ApplicantsSystem.Web
+﻿using AutoMapper;
+
+namespace ApplicantsSystem.Web
 {
     using ApplicantsSystem.Models;
     using Data;
@@ -46,6 +48,10 @@
                 .AddEntityFrameworkStores<ApplicantsSystemDbContext>()
                 .AddDefaultTokenProviders();
 
+            services.AddAutoMapper();
+
+            services.AddDomainServices();
+            
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 

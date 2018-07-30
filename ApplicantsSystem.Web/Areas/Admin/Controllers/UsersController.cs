@@ -1,23 +1,21 @@
-﻿using ApplicantsSystem.Models;
-
-namespace ApplicantsSystem.Web.Areas.Admin.Controllers
+﻿namespace ApplicantsSystem.Web.Areas.Admin.Controllers
 {
+    using ApplicantsSystem.Models;
+    using Data;
+    using Infrastructure;
+    using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
     using Models.Users;
     using Services.Admin;
     using System.Threading.Tasks;
-    using Microsoft.AspNetCore.Identity;
-    using MyApplicants.Models;
-    using Data;
-    using Infrastructure;
 
     public class UsersController : BaseAdminController
     {
-        private readonly MyApplicantsDbContext db;
+        private readonly ApplicantsSystemDbContext db;
         private readonly IAdminUserService users;
         private readonly UserManager<User> userManager;
 
-        public UsersController(MyApplicantsDbContext db, IAdminUserService users, UserManager<User> userManager)
+        public UsersController(ApplicantsSystemDbContext db, IAdminUserService users, UserManager<User> userManager)
         {
             this.db = db;
             this.users = users;
