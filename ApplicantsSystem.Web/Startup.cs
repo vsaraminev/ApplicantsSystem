@@ -1,8 +1,8 @@
-﻿using ApplicantsSystem.Models;
-
-namespace ApplicantsSystem.Web
+﻿namespace ApplicantsSystem.Web
 {
+    using ApplicantsSystem.Models;
     using Data;
+    using Infrastructure;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
@@ -34,8 +34,17 @@ namespace ApplicantsSystem.Web
             services.AddDbContext<ApplicantsSystemDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<User>()
-                .AddEntityFrameworkStores<ApplicantsSystemDbContext>();
+
+            services.AddIdentity<User, IdentityRole>(option =>
+                {
+                    option.Password.RequireDigit = false;
+                    option.Password.RequireLowercase = false;
+                    option.Password.RequireNonAlphanumeric = false;
+                    option.Password.RequireUppercase = false;
+                })
+                .AddDefaultUI()
+                .AddEntityFrameworkStores<ApplicantsSystemDbContext>()
+                .AddDefaultTokenProviders();
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -43,6 +52,8 @@ namespace ApplicantsSystem.Web
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
+            app.SeedDatabase();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

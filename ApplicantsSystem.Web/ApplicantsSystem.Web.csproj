@@ -16,4 +16,8 @@
     <ProjectReference Include="..\ApplicantsSystem.Models\ApplicantsSystem.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Infrastructure\" />
+  </ItemGroup>
+
 </Project>
