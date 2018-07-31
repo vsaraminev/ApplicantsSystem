@@ -8,8 +8,7 @@
     public class User : IdentityUser
     {
         public User()
-        {
-            this.InterviewerInterviewrs = new List<InterviewInterviewer>();
+        { 
             this.Interviews = new List<Interview>();
         }
 
@@ -26,10 +25,8 @@
         [Url]
         public string LinkedIn { get; set; }
 
-        public bool IsHired { get; set; }
-
-        public ICollection<InterviewInterviewer> InterviewerInterviewrs { get; set; }
-
+        public bool IsHired { get; set; } 
+        
         public ICollection<Interview> Interviews { get; set; }
     }
 }
