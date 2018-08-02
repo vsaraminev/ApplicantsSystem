@@ -1,7 +1,7 @@
 ﻿namespace ApplicantsSystem.Models
 {
-    using System.ComponentModel.DataAnnotations;
     using Constants;
+    using System.ComponentModel.DataAnnotations;
 
     public class Feedback
     {
@@ -10,6 +10,11 @@
         [Required]
         [MinLength(DataConstants.FeedbackContextMinLength)]
         [MaxLength(DataConstants.FeedbackContextMaxLength)]
+        public int InterviewId { get; set; }
+
+        [Required]
+        public Interview Interview { get; set; }
+
         public string Context { get; set; }
 
         [Range(DataConstants.FeedbackMinScore, DataConstants.FeedbackMaxScore)]

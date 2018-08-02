@@ -1,6 +1,4 @@
-﻿@using ApplicantsSystem.Models.Constants
-@using ApplicantsSystem.Web.Infrastructure
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -28,18 +26,13 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Applicants System</a>
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">ApplicantsSystem.Web</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li><a asp-area="" asp-controller="Home" asp-action="Index">Home</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="About">About</a></li>
                     <li><a asp-area="" asp-controller="Home" asp-action="Contact">Contact</a></li>
-                    @if (User.IsInRole(WebConstants.AdministratorRole))
-                    {
-                        <li><a asp-area="Admin" asp-controller="Users" asp-action="Index">Users</a></li>
-                        <li><a asp-area="Admin" asp-controller="Users" asp-action="Create">Create Interviewer</a></li>
-                    }
                 </ul>
                 <partial name="_LoginPartial" />
             </div>
@@ -52,7 +45,7 @@
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; 2018 - Applicants System</p>
+            <p>&copy; 2018 - ApplicantsSystem.Web</p>
         </footer>
     </div>
 

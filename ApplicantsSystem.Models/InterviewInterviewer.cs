@@ -15,9 +15,5 @@
         public string InterviewerId { get; set; }
 
         public User Interviewer { get; set; }
-
-        public int FeedbackId { get; set; }
-
-        public Feedback Feedback { get; set; }
     }
 }

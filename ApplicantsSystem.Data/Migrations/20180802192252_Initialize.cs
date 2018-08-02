@@ -8,18 +8,26 @@ namespace ApplicantsSystem.Data.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.AlterColumn<string>(
+                name: "Name",
+                table: "AspNetUserTokens",
+                nullable: false,
+                oldClrType: typeof(string),
+                oldMaxLength: 128);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "LoginProvider",
+                table: "AspNetUserTokens",
+                nullable: false,
+                oldClrType: typeof(string),
+                oldMaxLength: 128);
+
             migrationBuilder.AddColumn<string>(
                 name: "FirstName",
                 table: "AspNetUsers",
                 maxLength: 50,
                 nullable: false,
                 defaultValue: "");
-
-            migrationBuilder.AddColumn<bool>(
-                name: "IsHired",
-                table: "AspNetUsers",
-                nullable: false,
-                defaultValue: false);
 
             migrationBuilder.AddColumn<string>(
                 name: "LastName",
@@ -28,23 +36,36 @@ namespace ApplicantsSystem.Data.Migrations
                 nullable: false,
                 defaultValue: "");
 
-            migrationBuilder.AddColumn<string>(
-                name: "LinkedIn",
-                table: "AspNetUsers",
-                nullable: true);
+            migrationBuilder.AlterColumn<string>(
+                name: "ProviderKey",
+                table: "AspNetUserLogins",
+                nullable: false,
+                oldClrType: typeof(string),
+                oldMaxLength: 128);
+
+            migrationBuilder.AlterColumn<string>(
+                name: "LoginProvider",
+                table: "AspNetUserLogins",
+                nullable: false,
+                oldClrType: typeof(string),
+                oldMaxLength: 128);
 
             migrationBuilder.CreateTable(
-                name: "Feedbacks",
+                name: "Applicants",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    Context = table.Column<string>(maxLength: 200, nullable: false),
-                    Score = table.Column<int>(nullable: false)
+                    FirstName = table.Column<string>(maxLength: 50, nullable: false),
+                    LastName = table.Column<string>(maxLength: 50, nullable: false),
+                    Email = table.Column<string>(nullable: false),
+                    Phone = table.Column<string>(nullable: true),
+                    LinkedIn = table.Column<string>(nullable: true),
+                    IsHired = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Feedbacks", x => x.Id);
+                    table.PrimaryKey("PK_Applicants", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -67,7 +88,8 @@ namespace ApplicantsSystem.Data.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
-                    Url = table.Column<string>(nullable: true)
+                    Url = table.Column<string>(nullable: true),
+                    ResultUrl = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -80,19 +102,19 @@ namespace ApplicantsSystem.Data.Migrations
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    ApplicantId = table.Column<string>(nullable: false),
-                    StartTime = table.Column<DateTime>(nullable: false),
-                    EndTime = table.Column<DateTime>(nullable: false),
+                    ApplicantId = table.Column<int>(nullable: false),
                     TestId = table.Column<int>(nullable: false),
-                    ResultId = table.Column<int>(nullable: false)
+                    ResultId = table.Column<int>(nullable: false),
+                    StartTime = table.Column<DateTime>(nullable: false),
+                    EndTime = table.Column<DateTime>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Interviews", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Interviews_AspNetUsers_ApplicantId",
+                        name: "FK_Interviews_Applicants_ApplicantId",
                         column: x => x.ApplicantId,
-                        principalTable: "AspNetUsers",
+                        principalTable: "Applicants",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
@@ -110,24 +132,38 @@ namespace ApplicantsSystem.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Feedbacks",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    InterviewId = table.Column<int>(maxLength: 200, nullable: false),
+                    Context = table.Column<string>(nullable: true),
+                    Score = table.Column<int>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Feedbacks", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Feedbacks_Interviews_InterviewId",
+                        column: x => x.InterviewId,
+                        principalTable: "Interviews",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "InterviewInterviewers",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     InterviewId = table.Column<int>(nullable: false),
-                    InterviewerId = table.Column<string>(nullable: false),
-                    FeedbackId = table.Column<int>(nullable: false)
+                    InterviewerId = table.Column<string>(nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_InterviewInterviewers", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_InterviewInterviewers_Feedbacks_FeedbackId",
-                        column: x => x.FeedbackId,
-                        principalTable: "Feedbacks",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_InterviewInterviewers_Interviews_InterviewId",
                         column: x => x.InterviewId,
@@ -139,13 +175,13 @@ namespace ApplicantsSystem.Data.Migrations
                         column: x => x.InterviewerId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.NoAction);
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_InterviewInterviewers_FeedbackId",
-                table: "InterviewInterviewers",
-                column: "FeedbackId");
+                name: "IX_Feedbacks_InterviewId",
+                table: "Feedbacks",
+                column: "InterviewId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_InterviewInterviewers_InterviewId",
@@ -176,13 +212,16 @@ namespace ApplicantsSystem.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "InterviewInterviewers");
-
-            migrationBuilder.DropTable(
                 name: "Feedbacks");
 
             migrationBuilder.DropTable(
+                name: "InterviewInterviewers");
+
+            migrationBuilder.DropTable(
                 name: "Interviews");
+
+            migrationBuilder.DropTable(
+                name: "Applicants");
 
             migrationBuilder.DropTable(
                 name: "Results");
@@ -195,16 +234,36 @@ namespace ApplicantsSystem.Data.Migrations
                 table: "AspNetUsers");
 
             migrationBuilder.DropColumn(
-                name: "IsHired",
-                table: "AspNetUsers");
-
-            migrationBuilder.DropColumn(
                 name: "LastName",
                 table: "AspNetUsers");
 
-            migrationBuilder.DropColumn(
-                name: "LinkedIn",
-                table: "AspNetUsers");
+            migrationBuilder.AlterColumn<string>(
+                name: "Name",
+                table: "AspNetUserTokens",
+                maxLength: 128,
+                nullable: false,
+                oldClrType: typeof(string));
+
+            migrationBuilder.AlterColumn<string>(
+                name: "LoginProvider",
+                table: "AspNetUserTokens",
+                maxLength: 128,
+                nullable: false,
+                oldClrType: typeof(string));
+
+            migrationBuilder.AlterColumn<string>(
+                name: "ProviderKey",
+                table: "AspNetUserLogins",
+                maxLength: 128,
+                nullable: false,
+                oldClrType: typeof(string));
+
+            migrationBuilder.AlterColumn<string>(
+                name: "LoginProvider",
+                table: "AspNetUserLogins",
+                maxLength: 128,
+                nullable: false,
+                oldClrType: typeof(string));
         }
     }
 }
