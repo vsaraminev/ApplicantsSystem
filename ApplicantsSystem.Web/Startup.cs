@@ -1,4 +1,7 @@
-﻿namespace ApplicantsSystem.Web
+﻿using ApplicantsSystem.Services.Admin;
+using ApplicantsSystem.Services.Admin.Implementation;
+
+namespace ApplicantsSystem.Web
 {
     using ApplicantsSystem.Models;
     using Data;
@@ -48,6 +51,8 @@
                 .AddDefaultTokenProviders();
 
             services.AddAutoMapper();
+
+            services.AddScoped<IAdminApplicantService, AdminApplicantService>();
 
             //services.AddDomainServices();
 

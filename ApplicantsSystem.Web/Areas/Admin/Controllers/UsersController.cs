@@ -1,21 +1,21 @@
 ﻿namespace ApplicantsSystem.Web.Areas.Admin.Controllers
 {
     using ApplicantsSystem.Models;
+    using Common.Admin.BindingModels;
     using Data;
     using Infrastructure;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
-    using Models.Users;
     using Services.Admin;
     using System.Threading.Tasks;
 
     public class UsersController : BaseAdminController
     {
         private readonly ApplicantsSystemDbContext db;
-        private readonly IAdminUserService users;
+        private readonly IAdminApplicantService users;
         private readonly UserManager<User> userManager;
 
-        public UsersController(ApplicantsSystemDbContext db, IAdminUserService users, UserManager<User> userManager)
+        public UsersController(ApplicantsSystemDbContext db, IAdminApplicantService users, UserManager<User> userManager)
         {
             this.db = db;
             this.users = users;
@@ -36,7 +36,7 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(CreateUserBindingModel model)
+        public async Task<IActionResult> Create(CreateApplicantBindingModel model)
         {
             if (!ModelState.IsValid)
             {
