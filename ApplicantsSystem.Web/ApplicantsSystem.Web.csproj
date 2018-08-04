@@ -18,4 +18,19 @@
     <ProjectReference Include="..\ApplicantsSystem.Services\ApplicantsSystem.Services.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Areas\Identity\Services\" />
+    <Folder Include="Areas\Interviewer\Data\" />
+    <Folder Include="Areas\Interviewer\Models\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="Areas\Interviewer\Views\_ViewImports.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+    <Content Update="Areas\Interviewer\Views\_ViewStart.cshtml">
+      <Pack>$(IncludeRazorContentInPack)</Pack>
+    </Content>
+  </ItemGroup>
+
 </Project>
