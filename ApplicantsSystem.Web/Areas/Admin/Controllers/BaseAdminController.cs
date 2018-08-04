@@ -1,9 +1,8 @@
-﻿using WebConstants = ApplicantsSystem.Web.Infrastructure.WebConstants;
-namespace ApplicantsSystem.Web.Areas.Admin.Controllers
+﻿namespace ApplicantsSystem.Web.Areas.Admin.Controllers
 {
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
-    using static WebConstants;
+    using static ApplicantsSystem.Common.Constants.WebConstants;
 
     [Area(AdminArea)]
     [Authorize(Roles = AdministratorRole)]
