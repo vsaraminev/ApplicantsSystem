@@ -8,9 +8,5 @@
     [Authorize(Roles = InterviewerRole)]
     public abstract class InterviewerController : Controller
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
     }
 }

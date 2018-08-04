@@ -1,13 +1,24 @@
 ﻿namespace ApplicantsSystem.Web.Areas.Interviewer.Controllers
 {
-    using Microsoft.AspNetCore.Mvc;
     using Common.Interviewer.BindingModels;
+    using Microsoft.AspNetCore.Mvc;
+    using Services.Interviewer;
+    using System.Threading.Tasks;
 
     public class TestsController : InterviewerController
     {
+        private readonly IInterviewerTestsService tests;
+
+        public TestsController(IInterviewerTestsService tests)
+        {
+            this.tests = tests;
+        }
+
         public IActionResult All()
         {
-            return View();
+            var tests = this.tests.All();
+
+            return View(tests);
         }
 
         public IActionResult Create()
@@ -16,20 +27,23 @@
         }
 
         [HttpPost]
-        public IActionResult Create(InterviewerTestBindingModel model)
+        public async Task<IActionResult> Create(InterviewerTestBindingModel model)
         {
-            return View();
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            await this.tests.Create(model);
+
+            return RedirectToAction(nameof(All));
         }
 
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Remove(int id)
         {
-            return View();
-        }
+            await this.tests.Remove(id);
 
-        [HttpPost]
-        public IActionResult Confirm(int id)
-        {
-            return View();
+            return RedirectToAction(nameof(All));
         }
     }
 }

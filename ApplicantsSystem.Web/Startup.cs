@@ -14,6 +14,8 @@
     using Microsoft.Extensions.DependencyInjection;
     using Services.Admin;
     using Services.Admin.Implementation;
+    using Services.Interviewer;
+    using Services.Interviewer.Implementation;
 
     public class Startup
     {
@@ -33,7 +35,6 @@
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
-
 
             services.AddDbContext<ApplicantsSystemDbContext>(options =>
                 options.UseSqlServer(
@@ -99,6 +100,7 @@
         {
             services.AddScoped<IAdminApplicantService, AdminApplicantService>();
             services.AddScoped<IAdminInterviewerService, AdminInterviewerService>();
+            services.AddScoped<IInterviewerTestsService, InterviewerTestsService>();
         }
     }
 }

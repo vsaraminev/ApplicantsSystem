@@ -1,4 +1,5 @@
 ﻿using ApplicantsSystem.Common.Admin.ViewModels;
+using ApplicantsSystem.Common.Interviewer.BindingModels;
 
 namespace ApplicantsSystem.Web.Infrastructure.Mapping
 {
@@ -14,6 +15,7 @@ namespace ApplicantsSystem.Web.Infrastructure.Mapping
             this.CreateMap<User, AdminInterviewerListingViewModel>();
             this.CreateMap<CreateApplicantBindingModel, Applicant>();
             this.CreateMap<CreateInterviewerBindingModel, User>();
+            this.CreateMap<InterviewerTestBindingModel, Test>();
         }
     }
 }
