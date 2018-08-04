@@ -1,0 +1,38 @@
+﻿@model AdminInterviewerDetailsViewModel
+@{
+    ViewData["Title"] = $"Details for {Model.FirstName} {Model.LastName}";
+}
+
+<h2>@ViewData["Title"]</h2>
+<br />
+
+<table class="table table-bordered  table-hover text-center">
+    <thead>
+        <tr>
+            <th>
+                First Name
+            </th>
+            <th>
+                Last Name
+            </th>
+            <th>
+                Email
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @Model.FirstName
+            </td>
+            <td>
+                @Model.LastName
+            </td>
+            <td>
+                @Model.Email
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<a asp-controller="Interviewers" asp-action="All" class="btn btn-outline-primary">Back</a>

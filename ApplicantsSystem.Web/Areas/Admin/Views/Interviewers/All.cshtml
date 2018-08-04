@@ -1,0 +1,57 @@
+﻿@model IEnumerable<AdminInterviewerListingViewModel>
+@{
+    ViewData["Title"] = "All Interviewers";
+}
+
+<h2>@ViewData["Title"]</h2>
+
+<div>
+    <a class="btn btn-success" style="margin-right: 15px" asp-area="Admin" asp-controller="Interviewers" asp-action="Create">Add Interviewer</a>
+</div>
+
+<br />
+<table class="table table-bordered table-hover text-center">
+    <thead>
+    <tr>
+        <th>
+            First Name
+        </th>
+        <th>
+            Last Name
+        </th>
+        <th>
+            Email
+        </th>
+        <th>
+            Details
+        </th>
+        <th>
+            Action
+        </th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var interviewer in Model)
+    {
+        <tr>
+            <td>
+                @interviewer.FirstName
+            </td>
+            <td>
+                @interviewer.LastName
+            </td>
+            <td>
+                @interviewer.Email
+            </td>
+            <td>
+                <a class="btn btn-outline-primary" asp-area="Admin" asp-controller="Interviewers" asp-action="Details" asp-route-id="@interviewer.Id">Details</a>
+            </td>
+            <td>
+                <a class="btn btn-danger" asp-area="Admin" asp-controller="Interviewers" asp-action="Remove" asp-route-id="@interviewer.Id">Remove</a>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+
