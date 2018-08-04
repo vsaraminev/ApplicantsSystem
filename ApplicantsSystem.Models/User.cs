@@ -8,8 +8,8 @@
     public class User : IdentityUser
     {
         public User()
-        { 
-            this.Interviews = new List<Interview>();
+        {
+            this.Interviews = new List<InterviewInterviewer>();
         }
 
         [Required]
@@ -22,11 +22,7 @@
         [MaxLength(DataConstants.UserNameMaxLength)]
         public string LastName { get; set; }
 
-        [Url]
-        public string LinkedIn { get; set; }
+        public ICollection<InterviewInterviewer> Interviews { get; set; }
 
-        public bool IsHired { get; set; } 
-        
-        public ICollection<Interview> Interviews { get; set; }
     }
 }

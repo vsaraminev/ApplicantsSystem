@@ -7,6 +7,7 @@
     using Microsoft.Extensions.DependencyInjection;
     using System.Threading.Tasks;
     using ApplicantsSystem.Models;
+    using static ApplicantsSystem.Common.Constants.WebConstants;
 
     public static class ApplicationBuilderExtensions
     {
@@ -23,12 +24,12 @@
                 Task
                     .Run(async () =>
                     {
-                        var adminName = WebConstants.AdministratorRole;
+                        var adminName = AdministratorRole;
 
                         var roles = new[]
                         {
                             adminName,
-                            WebConstants.InterviewerRole
+                            InterviewerRole
                         };
 
                         foreach (var role in roles)
@@ -60,6 +61,24 @@
 
                             await userManager.CreateAsync(adminUser, "admin123");
                             await userManager.AddToRoleAsync(adminUser, adminName);
+                        }
+
+                        var interviewerEmail = "interviewer@mysite.com";
+
+                        var interviewerUser = await userManager.FindByEmailAsync(interviewerEmail);
+
+                        if (interviewerUser == null)
+                        {
+                            interviewerUser = new User
+                            {
+                                Email = interviewerEmail,
+                                UserName = interviewerEmail,
+                                FirstName = "Interviewer",
+                                LastName = "Interviewer"
+                            };
+
+                            await userManager.CreateAsync(interviewerUser, "int123");
+                            await userManager.AddToRoleAsync(interviewerUser, InterviewerRole);
                         }
                     })
                     .Wait();

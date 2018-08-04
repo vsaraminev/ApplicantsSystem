@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <TargetFramework>netcoreapp2.1</TargetFramework>
-    <UserSecretsId>aspnet-ApplicantsSystem.Web-D648F201-183B-4674-B0C0-96E0C865FB24</UserSecretsId>
+    <UserSecretsId>aspnet-ApplicantsSystem.Web-DCA103E9-55B9-4BF7-8667-573A530451F9</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,23 +12,23 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\ApplicantsSystem.Common\ApplicantsSystem.Common.csproj" />
     <ProjectReference Include="..\ApplicantsSystem.Data\ApplicantsSystem.Data.csproj" />
     <ProjectReference Include="..\ApplicantsSystem.Models\ApplicantsSystem.Models.csproj" />
     <ProjectReference Include="..\ApplicantsSystem.Services\ApplicantsSystem.Services.csproj" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Areas\Admin\Controllers\" />
-    <Folder Include="Areas\Admin\Models\" />
     <Folder Include="Areas\Identity\Services\" />
-    <Folder Include="Infrastructure\" />
+    <Folder Include="Areas\Interviewer\Data\" />
+    <Folder Include="Areas\Interviewer\Models\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Content Update="Areas\Admin\Views\_ViewImports.cshtml">
+    <Content Update="Areas\Interviewer\Views\_ViewImports.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
-    <Content Update="Areas\Admin\Views\_ViewStart.cshtml">
+    <Content Update="Areas\Interviewer\Views\_ViewStart.cshtml">
       <Pack>$(IncludeRazorContentInPack)</Pack>
     </Content>
   </ItemGroup>

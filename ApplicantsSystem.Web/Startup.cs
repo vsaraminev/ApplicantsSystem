@@ -1,8 +1,7 @@
-﻿using AutoMapper;
-
-namespace ApplicantsSystem.Web
+﻿namespace ApplicantsSystem.Web
 {
     using ApplicantsSystem.Models;
+    using AutoMapper;
     using Data;
     using Infrastructure;
     using Microsoft.AspNetCore.Builder;
@@ -13,6 +12,8 @@ namespace ApplicantsSystem.Web
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
+    using Services.Admin;
+    using Services.Admin.Implementation;
 
     public class Startup
     {
@@ -33,6 +34,7 @@ namespace ApplicantsSystem.Web
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+
             services.AddDbContext<ApplicantsSystemDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -50,8 +52,8 @@ namespace ApplicantsSystem.Web
 
             services.AddAutoMapper();
 
-            services.AddDomainServices();
-            
+            RegisterServiceLayer(services);
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -79,18 +81,24 @@ namespace ApplicantsSystem.Web
 
             app.UseMvc(routes =>
             {
+                //routes.MapRoute(
+                //    name:"Identity",
+                //    template:"Identity/Account/Login",
+                //    defaults: new {area = "Identity", controller="Account", action="Login"}
+                //    );
                 routes.MapRoute(
-                    name: "areas",
-                    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}"
-                );
-            });
-
-            app.UseMvc(routes =>
-            {
+                    name: "area",
+                    template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+        }
+
+        private static void RegisterServiceLayer(IServiceCollection services)
+        {
+            services.AddScoped<IAdminApplicantService, AdminApplicantService>();
+            services.AddScoped<IAdminInterviewerService, AdminInterviewerService>();
         }
     }
 }

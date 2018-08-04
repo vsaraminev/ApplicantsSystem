@@ -19,19 +19,50 @@ namespace ApplicantsSystem.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("ApplicantsSystem.Models.Applicant", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email")
+                        .IsRequired();
+
+                    b.Property<string>("FirstName")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<bool>("IsHired");
+
+                    b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasMaxLength(50);
+
+                    b.Property<string>("LinkedIn");
+
+                    b.Property<string>("Phone");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Applicants");
+                });
+
             modelBuilder.Entity("ApplicantsSystem.Models.Feedback", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("Context")
-                        .IsRequired()
+                    b.Property<string>("Context");
+
+                    b.Property<int>("InterviewId")
                         .HasMaxLength(200);
 
                     b.Property<int>("Score");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("InterviewId");
 
                     b.ToTable("Feedbacks");
                 });
@@ -42,8 +73,7 @@ namespace ApplicantsSystem.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ApplicantId")
-                        .IsRequired();
+                    b.Property<int>("ApplicantId");
 
                     b.Property<DateTime>("EndTime");
 
@@ -70,16 +100,12 @@ namespace ApplicantsSystem.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int>("FeedbackId");
-
                     b.Property<int>("InterviewId");
 
                     b.Property<string>("InterviewerId")
                         .IsRequired();
 
                     b.HasKey("Id");
-
-                    b.HasIndex("FeedbackId");
 
                     b.HasIndex("InterviewId");
 
@@ -111,6 +137,8 @@ namespace ApplicantsSystem.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(100);
 
+                    b.Property<string>("ResultUrl");
+
                     b.Property<string>("Url");
 
                     b.HasKey("Id");
@@ -137,13 +165,9 @@ namespace ApplicantsSystem.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(50);
 
-                    b.Property<bool>("IsHired");
-
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasMaxLength(50);
-
-                    b.Property<string>("LinkedIn");
 
                     b.Property<bool>("LockoutEnabled");
 
@@ -247,11 +271,9 @@ namespace ApplicantsSystem.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("ProviderKey")
-                        .HasMaxLength(128);
+                    b.Property<string>("ProviderKey");
 
                     b.Property<string>("ProviderDisplayName");
 
@@ -282,11 +304,9 @@ namespace ApplicantsSystem.Data.Migrations
                 {
                     b.Property<string>("UserId");
 
-                    b.Property<string>("LoginProvider")
-                        .HasMaxLength(128);
+                    b.Property<string>("LoginProvider");
 
-                    b.Property<string>("Name")
-                        .HasMaxLength(128);
+                    b.Property<string>("Name");
 
                     b.Property<string>("Value");
 
@@ -295,9 +315,17 @@ namespace ApplicantsSystem.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("ApplicantsSystem.Models.Feedback", b =>
+                {
+                    b.HasOne("ApplicantsSystem.Models.Interview", "Interview")
+                        .WithMany("Feedbacks")
+                        .HasForeignKey("InterviewId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("ApplicantsSystem.Models.Interview", b =>
                 {
-                    b.HasOne("ApplicantsSystem.Models.User", "Applicant")
+                    b.HasOne("ApplicantsSystem.Models.Applicant", "Applicant")
                         .WithMany("Interviews")
                         .HasForeignKey("ApplicantId")
                         .OnDelete(DeleteBehavior.Cascade);
@@ -315,18 +343,13 @@ namespace ApplicantsSystem.Data.Migrations
 
             modelBuilder.Entity("ApplicantsSystem.Models.InterviewInterviewer", b =>
                 {
-                    b.HasOne("ApplicantsSystem.Models.Feedback", "Feedback")
-                        .WithMany()
-                        .HasForeignKey("FeedbackId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
                     b.HasOne("ApplicantsSystem.Models.Interview", "Interview")
                         .WithMany("Interviewers")
                         .HasForeignKey("InterviewId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ApplicantsSystem.Models.User", "Interviewer")
-                        .WithMany("InterviewerInterviewrs")
+                        .WithMany("Interviews")
                         .HasForeignKey("InterviewerId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });

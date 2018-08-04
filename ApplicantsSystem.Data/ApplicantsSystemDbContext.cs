@@ -11,6 +11,8 @@
         {
         }
 
+        public DbSet<Applicant> Applicants { get; set; }
+
         public DbSet<Test> Tests { get; set; }
 
         public DbSet<Result> Results { get; set; }
@@ -30,20 +32,19 @@
 
             builder.Entity<InterviewInterviewer>()
                 .HasOne(ii => ii.Interviewer)
-                .WithMany(i => i.InterviewerInterviewrs)
+                .WithMany(i => i.Interviews)
                 .HasForeignKey(ii => ii.InterviewerId);
 
             builder.Entity<Interview>()
-                .HasOne(i => i.Test)
-                .WithMany(t => t.Interviews)
-                .HasForeignKey(i => i.TestId);
+                .HasOne(i => i.Applicant)
+                .WithMany(a => a.Interviews)
+                .HasForeignKey(i => i.ApplicantId);
 
-            builder.Entity<User>()
-                .HasMany(u => u.Interviews)
-                .WithOne(i => i.Applicant)
-                .HasForeignKey(i => i.ApplicantId)
-                .OnDelete(DeleteBehavior.Cascade);
-            
+            builder.Entity<Feedback>()
+                .HasOne(f => f.Interview)
+                .WithMany(i => i.Feedbacks)
+                .HasForeignKey(f => f.InterviewId);
+
             base.OnModelCreating(builder);
         }
     }

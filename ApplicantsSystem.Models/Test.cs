@@ -8,8 +8,7 @@
     {
         public Test()
         {
-            this.Interviews= new List<Interview>();
-            //this.Results = new List<Result>();
+            this.Interviews = new List<Interview>();
         }
 
         public int Id { get; set; }
@@ -21,6 +20,9 @@
 
         [Url]
         public string Url { get; set; }
+
+        [Url]
+        public string ResultUrl { get; set; }
 
         public ICollection<Interview> Interviews { get; set; }
     }

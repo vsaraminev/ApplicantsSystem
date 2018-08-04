@@ -1,16 +1,19 @@
-﻿namespace ApplicantsSystem.Web.Infrastructure.Mapping
+﻿using ApplicantsSystem.Common.Admin.ViewModels;
+
+namespace ApplicantsSystem.Web.Infrastructure.Mapping
 {
-    using AutoMapper;
     using ApplicantsSystem.Models;
-    using Services.Admin;
-    using Areas.Admin.Models.Users;
+    using AutoMapper;
+    using Common.Admin.BindingModels;
 
     public class AutoMapperProfile : Profile
     {
         public AutoMapperProfile()
         {
-            this.CreateMap<User, AdminUserListingServiceModel>();
-            this.CreateMap<CreateUserBindingModel, User>();
+            //this.CreateMap<Applicant, AdminApplicantListingViewModel>();
+            this.CreateMap<User, AdminInterviewerListingViewModel>();
+            this.CreateMap<CreateApplicantBindingModel, Applicant>();
+            this.CreateMap<CreateInterviewerBindingModel, User>();
         }
     }
 }
