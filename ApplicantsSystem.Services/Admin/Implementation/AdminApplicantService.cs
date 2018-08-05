@@ -4,7 +4,6 @@
     using Common.Admin.BindingModels;
     using Common.Admin.ViewModels;
     using Data;
-    using Microsoft.AspNetCore.Identity;
     using Models;
     using System.Collections.Generic;
     using System.Linq;
@@ -12,8 +11,6 @@
 
     public class AdminApplicantService : BaseService, IAdminApplicantService
     {
-        private readonly UserManager<Applicant> userManager;
-
         public AdminApplicantService(ApplicantsSystemDbContext db, IMapper mapper)
             : base(db, mapper)
         {

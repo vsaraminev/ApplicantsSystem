@@ -1,9 +1,8 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace ApplicantsSystem.Models
+﻿namespace ApplicantsSystem.Models
 {
     using System;
     using System.Collections.Generic;
+    using System.ComponentModel.DataAnnotations;
 
     public class Interview
     {
@@ -19,8 +18,7 @@ namespace ApplicantsSystem.Models
         public int ApplicantId { get; set; }
 
         public Applicant Applicant { get; set; }
-
-        [Required]
+        
         public int TestId { get; set; }
 
         public Test Test { get; set; }
@@ -29,11 +27,9 @@ namespace ApplicantsSystem.Models
 
         public Result Result { get; set; }
 
-        [Required]
         [DataType(DataType.DateTime)]
         public DateTime StartTime { get; set; }
 
-        [Required]
         [DataType(DataType.DateTime)]
         public DateTime EndTime { get; set; }
 

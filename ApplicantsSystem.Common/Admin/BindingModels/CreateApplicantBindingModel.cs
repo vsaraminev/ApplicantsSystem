@@ -1,8 +1,7 @@
-﻿using ApplicantsSystem.Models.Constants;
-namespace ApplicantsSystem.Common.Admin.BindingModels
+﻿namespace ApplicantsSystem.Common.Admin.BindingModels
 {
     using System.ComponentModel.DataAnnotations;
-    using static DataConstants;
+    using static ApplicantsSystem.Models.Constants.DataConstants;
 
     public class CreateApplicantBindingModel
     {

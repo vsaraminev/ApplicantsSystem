@@ -3,11 +3,13 @@
     using ApplicantsSystem.Models;
     using AutoMapper;
     using Data;
+    using Email;
     using Infrastructure;
     using Microsoft.AspNetCore.Builder;
     using Microsoft.AspNetCore.Hosting;
     using Microsoft.AspNetCore.Http;
     using Microsoft.AspNetCore.Identity;
+    using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Configuration;
@@ -16,6 +18,7 @@
     using Services.Admin.Implementation;
     using Services.Interviewer;
     using Services.Interviewer.Implementation;
+    using System;
 
     public class Startup
     {
@@ -55,11 +58,13 @@
 
             RegisterServiceLayer(services);
 
+            services.AddSingleton<IEmailSender, SendGridEmailSender>();
+
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
         {
             app.SeedDatabase();
 
@@ -101,6 +106,7 @@
             services.AddScoped<IAdminApplicantService, AdminApplicantService>();
             services.AddScoped<IAdminInterviewerService, AdminInterviewerService>();
             services.AddScoped<IInterviewerTestsService, InterviewerTestsService>();
+            services.AddScoped<IAdminInterviewService, AdminInterviewService>();
         }
     }
 }

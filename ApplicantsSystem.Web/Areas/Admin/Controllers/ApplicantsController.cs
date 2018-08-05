@@ -39,7 +39,7 @@
 
             // TODO : Message for successfully create applicant! 
 
-            return this.RedirectToAction(nameof(Details));
+            return this.RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Details(int id)

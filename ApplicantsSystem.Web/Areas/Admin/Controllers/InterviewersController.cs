@@ -37,7 +37,7 @@
 
             await this.interviewers.Create(model);
 
-            return this.RedirectToAction(nameof(All)); //Details
+            return this.RedirectToAction(nameof(Details)); 
         }
 
         public async Task<IActionResult> Details(string id)
