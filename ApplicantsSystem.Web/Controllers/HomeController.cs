@@ -1,13 +1,9 @@
-﻿using ApplicantsSystem.Web.Email;
-using MimeKit;
-
-namespace ApplicantsSystem.Web.Controllers
+﻿namespace ApplicantsSystem.Web.Controllers
 {
-    using System.Diagnostics;
-    using MailKit.Net.Smtp;
     using Microsoft.AspNetCore.Mvc;
-    using Models;
+    using Microsoft.AspNetCore.Authorization;
 
+    [Authorize]
     public class HomeController : Controller
     {
         public IActionResult Index()
