@@ -1,9 +1,11 @@
 ﻿namespace ApplicantsSystem.Web.Areas.Admin.Controllers
 {
     using Common.Admin.BindingModels;
+    using Infrastructure;
     using Microsoft.AspNetCore.Mvc;
     using Services.Admin;
     using System.Threading.Tasks;
+    using static ApplicantsSystem.Common.Constants.WebConstants;
 
     public class ApplicantsController : BaseAdminController
     {
@@ -37,7 +39,7 @@
 
             await this.applicants.Create(model);
 
-            // TODO : Message for successfully create applicant! 
+            TempData.AddSuccessMessage(string.Format(AddApplicantMessage, model.FirstName, model.LastName));
 
             return this.RedirectToAction(nameof(Index));
         }
@@ -53,7 +55,7 @@
         {
             await this.applicants.Hire(id);
 
-            // TODO : Message for hired applicant! 
+            TempData.AddSuccessMessage(HireApplicantMessage);
 
             return this.RedirectToAction(nameof(Index));
         }
@@ -62,7 +64,7 @@
         {
             await this.applicants.Remove(id);
 
-            // TODO : Alert Message for removed applicant! 
+            TempData.AddSuccessMessage(RemoveApplicantMessage);
 
             return this.RedirectToAction(nameof(Index));
         }

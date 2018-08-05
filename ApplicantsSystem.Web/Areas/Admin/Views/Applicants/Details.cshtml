@@ -3,72 +3,71 @@
 @{
     ViewData["Title"] = $"Details for {Model.FirstName} {Model.LastName}";
 }
-
+<br />
 <h2>@ViewData["Title"]</h2>
 <br />
-
 <table class="table table-bordered  table-hover text-center">
     <thead>
-    <tr>
-        <th>
-            First Name
-        </th>
-        <th>
-            Last Name
-        </th>
-        <th>
-            Email
-        </th>
-        <th>
-            Phone
-        </th>
-        <th>
-            LinkedIn
-        </th>
-        <th>
-            Action
-        </th>
-    </tr>
+        <tr>
+            <th>
+                First Name
+            </th>
+            <th>
+                Last Name
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Phone
+            </th>
+            <th>
+                LinkedIn
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
     </thead>
     <tbody>
-    <tr>
-        <td>
-            @Model.FirstName
-        </td>
-        <td>
-            @Model.LastName
-        </td>
-        <td>
-            @Model.Email
-        </td>
-        <td>
-            @if (Model.Phone == null)
-            {
-                <p>Not provided</p>
-            }
-            else
-            {
-                @Model.Phone
-            }
-        </td>
-        <td>
-            @if (Model.LinkedIn == null)
-            {
-                <p>Not provided</p>
-            }
-            else
-            {
-                @Model.LinkedIn
-            }
-        </td>
-        <td>
-           @if (Model.IsHired == false)
-           {
-               <a asp-controller="Applicants" asp-action="Hire" asp-route-id="@Model.Id" class="btn btn-success">Hire</a>
-               <a style="margin-left: 20px" asp-controller="Applicants" asp-action="Remove" asp-route-id="@Model.Id" class="btn btn-danger">Remove</a>
-           }
-        </td>
-    </tr>
+        <tr>
+            <td>
+                @Model.FirstName
+            </td>
+            <td>
+                @Model.LastName
+            </td>
+            <td>
+                @Model.Email
+            </td>
+            <td>
+                @if (Model.Phone == null)
+                {
+                    <p>Not provided</p>
+                }
+                else
+                {
+                    @Model.Phone
+                }
+            </td>
+            <td>
+                @if (Model.LinkedIn == null)
+                {
+                    <p>Not provided</p>
+                }
+                else
+                {
+                    @Model.LinkedIn
+                }
+            </td>
+            <td>
+                @if (Model.IsHired == false)
+                {
+                    <a asp-controller="Applicants" asp-action="Hire" asp-route-id="@Model.Id" class="btn btn-success">Hire</a>
+                    <a style="margin-left: 20px" asp-controller="Applicants" asp-action="Remove" asp-route-id="@Model.Id" class="btn btn-danger">Remove</a>
+                }
+            </td>
+        </tr>
     </tbody>
 </table>
 

@@ -2,9 +2,9 @@
 @{
     ViewData["Title"] = "All Tests";
 }
-
+<br />
 <h2>@ViewData["Title"]</h2>
-
+<br />
 <div>
     <a class="btn btn-success" style="margin-right: 15px" asp-area="Interviewer" asp-controller="Tests" asp-action="Create">Add Test</a>
 </div>
@@ -12,32 +12,32 @@
 <br />
 <table class="table table-bordered table-hover text-center">
     <thead>
-    <tr>
-        <th>
-            Name
-        </th>
-        <th>
-            Link
-        </th>
-        <th>
-            Action
-        </th>
-    </tr>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Link
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
     </thead>
     <tbody>
-    @foreach (var test in Model)
-    {
-        <tr>
-            <td>
-                @test.Name
-            </td>
-            <td>
-                <a href="@test.Url">@test.Url</a>
-            </td>
-            <td>
-                <a class="btn btn-danger" asp-area="Interviewer" asp-controller="Tests" asp-action="Remove" asp-route-id="@test.Id">Remove</a>
-            </td>
-        </tr>
-    }
+        @foreach (var test in Model)
+        {
+            <tr>
+                <td>
+                    @test.Name
+                </td>
+                <td>
+                    <a href="@test.Url">@test.Url</a>
+                </td>
+                <td>
+                    <a class="btn btn-danger" asp-area="Interviewer" asp-controller="Tests" asp-action="Remove" asp-route-id="@test.Id">Remove</a>
+                </td>
+            </tr>
+        }
     </tbody>
 </table>

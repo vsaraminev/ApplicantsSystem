@@ -1,14 +1,14 @@
 ﻿@model IEnumerable<AdminApplicantListingViewModel>
 
 @{
-    ViewData["Title"] = "All Applicants";
+    ViewData["Title"] = "Applicants Administration";
 }
+<br/>
+<h2>@ViewData["Title"]</h2>
 <br />
-<h1>@ViewData["Title"]</h1>
 <div>
     <a class="btn btn-success" style="margin-right: 15px" asp-area="Admin" asp-controller="Applicants" asp-action="Create">Add Applicant</a>
 </div>
-
 <br />
 <table class="table table-bordered table-hover text-center">
     <thead>

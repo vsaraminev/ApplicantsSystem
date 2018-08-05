@@ -9,7 +9,7 @@
     <form asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post" id="logoutForm" class="navbar-right">
         <ul class="navbar-nav navbar-right">
             <li class="nav-item active">
-                <a class="nav-link active" title="Manage">Hello @UserManager.GetUserName(User).Split('@').First()</a>
+                <a class="nav-link active" title="Manage">Hello, @UserManager.GetUserName(User).Split('@').First()!</a>
             </li>
             <li>
                 <button type="submit" class="btn btn-link nav-link"><strong>Logout</strong></button>

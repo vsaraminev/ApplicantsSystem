@@ -1,9 +1,12 @@
 ﻿namespace ApplicantsSystem.Web.Areas.Interviewer.Controllers
 {
     using Common.Interviewer.BindingModels;
+    using Infrastructure;
     using Microsoft.AspNetCore.Mvc;
     using Services.Interviewer;
+    using System;
     using System.Threading.Tasks;
+    using static ApplicantsSystem.Common.Constants.WebConstants;
 
     public class TestsController : InterviewerController
     {
@@ -36,12 +39,17 @@
 
             await this.tests.Create(model);
 
+            TempData.AddSuccessMessage(String.Format(CreateTestMessage, model.Name));
+
+
             return RedirectToAction(nameof(All));
         }
 
         public async Task<IActionResult> Remove(int id)
         {
             await this.tests.Remove(id);
+
+            TempData.AddSuccessMessage(RemoveTestMessage);
 
             return RedirectToAction(nameof(All));
         }

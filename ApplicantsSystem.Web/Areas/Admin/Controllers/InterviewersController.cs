@@ -1,9 +1,12 @@
 ﻿namespace ApplicantsSystem.Web.Areas.Admin.Controllers
 {
     using Common.Admin.BindingModels;
+    using Infrastructure;
     using Microsoft.AspNetCore.Mvc;
     using Services.Admin;
+    using System;
     using System.Threading.Tasks;
+    using static ApplicantsSystem.Common.Constants.WebConstants;
 
     public class InterviewersController : BaseAdminController
     {
@@ -21,7 +24,7 @@
 
             return View(interviewersModel);
         }
-       
+
         public IActionResult Create()
         {
             return View();
@@ -37,7 +40,9 @@
 
             await this.interviewers.Create(model);
 
-            return this.RedirectToAction(nameof(Details)); 
+            TempData.AddSuccessMessage(String.Format(AddInterviewertMessage, model.FirstName, model.LastName));
+
+            return this.RedirectToAction(nameof(Details));
         }
 
         public async Task<IActionResult> Details(string id)
@@ -50,6 +55,8 @@
         public async Task<IActionResult> Remove(string id)
         {
             await this.interviewers.Remove(id);
+
+            TempData.AddSuccessMessage(RemoveInterviewerMessage);
 
             return RedirectToAction(nameof(All));
         }
