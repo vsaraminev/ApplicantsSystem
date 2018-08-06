@@ -44,6 +44,9 @@ namespace ApplicantsSystem.Data.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("Email")
+                        .IsUnique();
+
                     b.ToTable("Applicants");
                 });
 
@@ -77,8 +80,6 @@ namespace ApplicantsSystem.Data.Migrations
 
                     b.Property<DateTime>("EndTime");
 
-                    b.Property<int>("ResultId");
-
                     b.Property<DateTime>("StartTime");
 
                     b.Property<int>("TestId");
@@ -86,8 +87,6 @@ namespace ApplicantsSystem.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicantId");
-
-                    b.HasIndex("ResultId");
 
                     b.HasIndex("TestId");
 
@@ -112,19 +111,6 @@ namespace ApplicantsSystem.Data.Migrations
                     b.HasIndex("InterviewerId");
 
                     b.ToTable("InterviewInterviewers");
-                });
-
-            modelBuilder.Entity("ApplicantsSystem.Models.Result", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("File");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Results");
                 });
 
             modelBuilder.Entity("ApplicantsSystem.Models.Test", b =>
@@ -328,11 +314,6 @@ namespace ApplicantsSystem.Data.Migrations
                     b.HasOne("ApplicantsSystem.Models.Applicant", "Applicant")
                         .WithMany("Interviews")
                         .HasForeignKey("ApplicantId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("ApplicantsSystem.Models.Result", "Result")
-                        .WithMany()
-                        .HasForeignKey("ResultId")
                         .OnDelete(DeleteBehavior.Cascade);
 
                     b.HasOne("ApplicantsSystem.Models.Test", "Test")

@@ -22,16 +22,12 @@
         public int TestId { get; set; }
 
         public Test Test { get; set; }
-
-        public int ResultId { get; set; }
-
-        public Result Result { get; set; }
-
+        
         [DataType(DataType.DateTime)]
         public DateTime StartTime { get; set; }
 
         [DataType(DataType.DateTime)]
-        public DateTime EndTime { get; set; }
+        public DateTime? EndTime { get; set; }
 
         public ICollection<Feedback> Feedbacks { get; set; }
 

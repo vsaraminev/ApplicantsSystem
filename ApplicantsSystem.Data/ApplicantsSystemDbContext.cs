@@ -14,9 +14,7 @@
         public DbSet<Applicant> Applicants { get; set; }
 
         public DbSet<Test> Tests { get; set; }
-
-        public DbSet<Result> Results { get; set; }
-
+        
         public DbSet<Feedback> Feedbacks { get; set; }
 
         public DbSet<Interview> Interviews { get; set; }
@@ -25,6 +23,10 @@
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
+            builder.Entity<Applicant>()
+                .HasIndex(a => a.Email)
+                .IsUnique();
+
             builder.Entity<InterviewInterviewer>()
                 .HasOne(ii => ii.Interview)
                 .WithMany(i => i.Interviewers)
@@ -39,6 +41,11 @@
                 .HasOne(i => i.Applicant)
                 .WithMany(a => a.Interviews)
                 .HasForeignKey(i => i.ApplicantId);
+
+            builder.Entity<Interview>()
+                .HasOne(i => i.Test)
+                .WithMany(t => t.Interviews)
+                .HasForeignKey(i => i.TestId);
 
             builder.Entity<Feedback>()
                 .HasOne(f => f.Interview)

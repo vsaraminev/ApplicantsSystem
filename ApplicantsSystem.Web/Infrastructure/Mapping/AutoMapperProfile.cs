@@ -13,11 +13,12 @@ namespace ApplicantsSystem.Web.Infrastructure.Mapping
         {
             //this.CreateMap<Applicant, AdminApplicantListingViewModel>();
             this.CreateMap<User, AdminInterviewerListingViewModel>();
+            this.CreateMap<Interview, AdminInterviewsListingViewModel>();
             this.CreateMap<CreateApplicantBindingModel, Applicant>();
             this.CreateMap<CreateInterviewerBindingModel, User>();
             this.CreateMap<InterviewerTestBindingModel, Test>();
-            this.CreateMap<CreateOnsideInterviewBindingModel, Interview>();
-            this.CreateMap<CreateOutsideInterviewBindingModel, Interview>();
+            this.CreateMap<CreateOnsiteInterviewBindingModel, Interview>();
+            this.CreateMap<CreateOffsiteInterviewBindingModel, Interview>();
         }
     }
 }

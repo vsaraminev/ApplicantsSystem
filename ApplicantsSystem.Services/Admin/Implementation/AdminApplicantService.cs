@@ -1,4 +1,6 @@
-﻿namespace ApplicantsSystem.Services.Admin.Implementation
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace ApplicantsSystem.Services.Admin.Implementation
 {
     using AutoMapper;
     using Common.Admin.BindingModels;
@@ -18,7 +20,10 @@
 
         public IEnumerable<AdminApplicantListingViewModel> ApplicantsAll()
         {
-            var applicants = this.DbContext.Applicants.ToList();
+            var applicants = this.DbContext
+                .Applicants
+                .Include(a => a.Interviews)
+                .ToList();
 
             return this.Mapper.Map<IEnumerable<AdminApplicantListingViewModel>>(applicants);
         }
@@ -35,7 +40,8 @@
         {
             var applicant = await this.DbContext
                 .Applicants
-                .FindAsync(id);
+                .Include(a => a.Interviews)
+                .FirstOrDefaultAsync(a => a.Id == id);
 
             return this.Mapper.Map<AdminApplicantDetailsViewModel>(applicant);
         }
