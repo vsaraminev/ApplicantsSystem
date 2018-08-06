@@ -1,0 +1,49 @@
+﻿@model CreateOnsiteInterviewBindingModel
+@{
+    ViewData["Title"] = "Create OnSide Interview";
+}
+<br />
+<h2>@ViewData["Title"]</h2>
+<br />
+
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ApplicantId"></label>
+                <select asp-for="ApplicantId" asp-items="@Model.Applicants" class="form-control"></select>
+                <span asp-validation-for="ApplicantId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="FirstInterviewerId"></label>
+                <select asp-for="FirstInterviewerId" asp-items="@Model.Interviewers" class="form-control"></select>
+                <span asp-validation-for="FirstInterviewerId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="SecondInterviewerId"></label>
+                <select asp-for="SecondInterviewerId" asp-items="@Model.Interviewers" class="form-control"></select>
+                <span asp-validation-for="SecondInterviewerId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="StartTime"></label>
+                <input asp-for="StartTime" class="form-control" />
+                <span asp-validation-for="StartTime" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="EndTime"></label>
+                <input asp-for="EndTime" class="form-control" />
+                <span asp-validation-for="EndTime" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-success">Create New Interview</button>
+            <a style="margin: 20px" asp-controller="Interview" asp-action="Index" class="btn btn-outline-primary">Back</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

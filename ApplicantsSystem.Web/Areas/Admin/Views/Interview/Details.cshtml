@@ -1,0 +1,103 @@
+﻿@model AdminInterviewDetailsViewModel
+@{
+    ViewData["Title"] = $"Details For Interview With ";
+}
+<br />
+<h2>@ViewData["Title"]</h2>
+<br />
+
+@if (Model.TestId != 0)
+{
+    <table class="table table-bordered  table-hover text-center">
+        <thead>
+            <tr>
+                <th>
+                    Applicant Name
+                </th>
+                <th>
+                    Send Date
+                </th>
+                <th>
+                    Test Name
+                </th>
+                <th>
+                    Test Url
+                </th>
+                <th>
+                    Test Result Url
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @Model.ApplicantId
+                </td>
+                <td>
+                    @Model.StartTime
+                </td>
+                <td>
+                    @Model.TestId
+                </td>
+                <td>
+                    @Model.TestId
+                </td>
+                <td></td>
+            </tr>
+        </tbody>
+    </table>
+}
+else
+{
+    <table class="table table-bordered  table-hover text-center">
+        <thead>
+            <tr>
+                <th>
+                    Applicant Name
+                </th>
+                <th>
+                    First Interviewer Name
+                </th>
+                <th>
+                    Second Interviewer Name
+                </th>
+                <td>
+                    Start Time
+                </td>
+                <td>
+                    End Time
+                </td>
+                <th>
+                    Feedback
+                </th>
+
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    @Model.ApplicantId
+                </td>
+                <td>
+                    
+                </td>
+                <td>
+                    
+                </td>
+                <td>
+                  @Model.StartTime
+                </td>
+                <td>
+                 @Model.EndTime
+                </td>
+                <td>
+                   
+                </td>
+            </tr>
+        </tbody>
+    </table>
+}
+
+
+<a asp-controller="Interview" asp-action="Index" class="btn btn-outline-primary">Back</a>
+

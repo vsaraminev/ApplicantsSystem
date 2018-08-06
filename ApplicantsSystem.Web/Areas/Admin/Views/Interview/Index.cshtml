@@ -1,0 +1,46 @@
+﻿@model IEnumerable<AdminInterviewsListingViewModel>
+@{
+    ViewData["Title"] = "Interviews Administration";
+}
+<br />
+<h2 class="text-center">@ViewData["Title"]</h2>
+<br />
+<div class="text-center">
+    <a class="btn btn-success" style="margin-right: 15px" asp-area="Admin" asp-controller="Interview" asp-action="CreateOnSite"> On-Site Interview</a>
+    <a class="btn btn-success" style="margin-right: 15px" asp-area="Admin" asp-controller="Interview" asp-action="CreateOffSite">Off-Site Interview</a>
+</div>
+<br/>
+<h3 class="text-center">All Interviews</h3>
+<br/>
+<table class="table table-bordered  table-hover text-center">
+    <thead>
+        <tr>
+            <th>
+                Applicant Id
+            </th>
+            <th>
+                Location
+            </th>
+            <th>
+                Details
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var interview in Model)
+        {
+            <tr>
+                <td>
+                    @interview.ApplicantId
+
+                </td>
+                <td>
+                   @(interview.TestId == 0 ? "On-Site Interview" : "Off-Site Interview") 
+                </td>
+                <td>
+                    <a class="btn btn-outline-primary" asp-area="Admin" asp-controller="Interview" asp-action="Details" asp-route-id="@interview.Id">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
