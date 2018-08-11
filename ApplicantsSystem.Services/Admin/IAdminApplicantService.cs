@@ -2,6 +2,7 @@
 {
     using Common.Admin.BindingModels;
     using Common.Admin.ViewModels;
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
@@ -13,7 +14,9 @@
 
         Task <AdminApplicantDetailsViewModel> Details(int id);
 
-        Task Hire(int id);
+        Task ChangeStatus(AdminChangeApplicantsStatus model);
+
+        List<SelectListItem> GetStatuses();
 
         Task Remove(int id);
     }

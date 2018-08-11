@@ -9,6 +9,7 @@
         public Applicant()
         {
             this.Interviews = new List<Interview>();
+            this.Statuses = new List<AplicantStatus>();
         }
 
         public int Id { get; set; }
@@ -35,7 +36,9 @@
         [Url]
         public string LinkedIn { get; set; }
 
-        public bool IsHired { get; set; }
+        public int CurrentStatus { get; set; }
+
+        public ICollection<AplicantStatus> Statuses { get; set; }
 
         public ICollection<Interview> Interviews { get; set; }
     }

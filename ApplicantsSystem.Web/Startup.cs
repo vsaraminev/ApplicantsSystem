@@ -39,6 +39,8 @@
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
+            services.AddResponseCaching();
+
             services.AddDbContext<ApplicantsSystemDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -64,10 +66,10 @@
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.SeedDatabase();
-
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -84,6 +86,8 @@
             app.UseCookiePolicy();
 
             app.UseAuthentication();
+
+            app.UseResponseCaching();
 
             app.UseMvc(routes =>
             {

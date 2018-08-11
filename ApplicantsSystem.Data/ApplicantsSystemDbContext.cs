@@ -19,6 +19,10 @@
 
         public DbSet<Interview> Interviews { get; set; }
 
+        public DbSet<AplicantStatus> AplicantStatuses { get; set; }
+
+        public DbSet<Status> Statuses { get; set; }
+
         public DbSet<InterviewInterviewer> InterviewInterviewers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -37,6 +41,16 @@
                 .WithMany(i => i.Interviews)
                 .HasForeignKey(ii => ii.InterviewerId);
 
+            builder.Entity<AplicantStatus>()
+                .HasOne(s => s.Applicant)
+                .WithMany(a => a.Statuses)
+                .HasForeignKey(s => s.ApplicantId);
+
+            builder.Entity<AplicantStatus>()
+                .HasOne(s => s.Status)
+                .WithMany(st => st.Applicants)
+                .HasForeignKey(s => s.StatusId);
+
             builder.Entity<Interview>()
                 .HasOne(i => i.Applicant)
                 .WithMany(a => a.Interviews)
@@ -48,9 +62,17 @@
                 .HasForeignKey(i => i.TestId);
 
             builder.Entity<Feedback>()
+                .HasKey(f => new {f.InterviewId, f.InterviewerId});
+
+            builder.Entity<Feedback>()
                 .HasOne(f => f.Interview)
                 .WithMany(i => i.Feedbacks)
                 .HasForeignKey(f => f.InterviewId);
+
+            builder.Entity<Feedback>()
+                .HasOne(f => f.Interviewer)
+                .WithMany(i => i.Feedbacks)
+                .HasForeignKey(f => f.InterviewerId);
 
             base.OnModelCreating(builder);
         }

@@ -18,11 +18,11 @@
         public int ApplicantId { get; set; }
 
         public Applicant Applicant { get; set; }
-        
+
         public int TestId { get; set; }
 
         public Test Test { get; set; }
-        
+
         [DataType(DataType.DateTime)]
         public DateTime StartTime { get; set; }
 
@@ -30,7 +30,7 @@
         public DateTime? EndTime { get; set; }
 
         public ICollection<Feedback> Feedbacks { get; set; }
-
+        
         public ICollection<InterviewInterviewer> Interviewers { get; set; }
     }
 }

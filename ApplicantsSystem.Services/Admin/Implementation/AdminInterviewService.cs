@@ -28,12 +28,12 @@ namespace ApplicantsSystem.Services.Admin.Implementation
 
         public async Task CreateOffSite(CreateOffsiteInterviewBindingModel model)
         {
-            //var interview = this.Mapper.Map<Interview>(model);
+            var test = DbContext.Tests.Find(model.TestId);
 
             var interview = new Interview()
             {
                 ApplicantId = model.ApplicantId,
-                TestId = model.TestId,
+                Test = test,
                 StartTime = DateTime.UtcNow.ToLocalTime(),
                 EndTime = null
             };

@@ -10,6 +10,7 @@
         public User()
         {
             this.Interviews = new List<InterviewInterviewer>();
+            this.Feedbacks = new List<Feedback>();
         }
 
         [Required]
@@ -24,5 +25,6 @@
 
         public ICollection<InterviewInterviewer> Interviews { get; set; }
 
+        public ICollection<Feedback> Feedbacks { get; set; }
     }
 }

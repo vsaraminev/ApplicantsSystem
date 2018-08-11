@@ -18,7 +18,7 @@
 
         public const string AddApplicantMessage = "Applicant {0} {1} is added successfully!";
         public const string AddInterviewertMessage = "Interviewer {0} {1} is added successfully!";
-        public const string HireApplicantMessage = "Applicant is hired successfully!";
+        public const string ChangeApplicantStatusMessage = "{0) {1} status was changed to successfully!";
         public const string RemoveApplicantMessage = "Applicant was removed successfully!";
         public const string RemoveInterviewerMessage = "Applicant was removed successfully!";
         public const string SendTestMessage = "{0} test was send to {1} successfully!";
@@ -28,6 +28,10 @@
         public const string RemoveTestMessage = "Test was removed successfully!";
 
         public const string EmailSubject = "Interview test from Applicants System";
-        public const string EmailMessage = "To open your test <a href='{0}'>click here</a>."; 
+        public const string EmailMessage = "To open your test <a href='{0}'>click here</a>.";
+
+        public const string InInterviewStatus = "InInterview";
+        public const string HiredStatus = "Hired";
+        public const string RejectedStatus = "Rejected";
     }
 }

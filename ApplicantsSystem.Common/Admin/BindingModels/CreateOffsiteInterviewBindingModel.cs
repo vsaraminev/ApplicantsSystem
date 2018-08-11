@@ -19,6 +19,7 @@
         [Required]
         [Display(Name = Test)]
         public int TestId { get; set; }
+
         public IEnumerable<SelectListItem> Tests { get; set; }
     }
 }

@@ -64,18 +64,14 @@
                 }
             </td>
             <td>
-                @if (Model.IsHired == false)
-                {
-                    <a asp-controller="Applicants" asp-action="Hire" asp-route-id="@Model.Id" class="btn btn-success">Hire</a>
-                    <a style="margin-left: 20px" asp-controller="Applicants" asp-action="Remove" asp-route-id="@Model.Id" class="btn btn-danger">Remove</a>
-                }
+                <a asp-controller="Applicants" asp-action="ChangeStatus" asp-route-id="@Model.Id" class="btn btn-success">Change Status</a>
             </td>
             <td>
                 @if (Model.Interviews.Any())
                 {
                     foreach (var interview in Model.Interviews)
                     {
-                            @interview.Id<br/>
+                        @interview.Id<br />
                     }
                 }
             </td>

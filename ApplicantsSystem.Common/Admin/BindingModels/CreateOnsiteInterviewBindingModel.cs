@@ -14,7 +14,7 @@
         public int ApplicantId { get; set; }
 
         public IEnumerable<SelectListItem> Applicants { get; set; }
-
+        
         [Required]
         [Display(Name = WebConstants.StartTime)]
         [DataType(DataType.DateTime)]
