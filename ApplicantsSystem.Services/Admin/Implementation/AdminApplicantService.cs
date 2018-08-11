@@ -83,30 +83,42 @@ namespace ApplicantsSystem.Services.Admin.Implementation
         {
             var applicant = await this.DbContext
                 .Applicants
-                .Include(a => a.Interviews)
+                //.Include(a => a.Interviews)
+                //.Include(a=>a.Statuses)
                 .FirstOrDefaultAsync(a => a.Id == id);
 
             return this.Mapper.Map<AdminApplicantDetailsViewModel>(applicant);
         }
 
-        public async Task ChangeStatus(AdminChangeApplicantsStatus model)
+        public async Task<AdminApplicantInterviewsViewModel> GetInterviews(int id)
         {
-            var applicantExists = await this.DbContext.Applicants.AnyAsync(a => a.Id == model.ApplicantId);
+            var interviews = await this.DbContext
+                .Applicants
+                .Include(i => i.Interviews)
+                .ThenInclude(i => i.Interviewers)
+                .FirstOrDefaultAsync(a => a.Id == id);
 
-            var statusExists = await this.DbContext.Statuses.AnyAsync(s => s.Id == model.StatusId);
-
-
-            if (!statusExists || !applicantExists)
-            {
-            }
-
-            ////var applicant = await this.DbContext
-            //    .Applicants
-            //    .FindAsync(id);
-
-            await this.DbContext.SaveChangesAsync();
+            return this.Mapper.Map<AdminApplicantInterviewsViewModel>(interviews);
         }
 
+        public async Task ChangeStatus(AdminChangeApplicantsStatus model)
+        {
+            //var applicantExists = await this.DbContext.Applicants.AnyAsync(a => a.Id == model.ApplicantId);
+
+            //var statusExists = await this.DbContext.Statuses.AnyAsync(s => s.Id == model.StatusId);
+
+
+            //if (!statusExists || !applicantExists)
+            //{
+            //}
+
+            //////var applicant = await this.DbContext
+            ////    .Applicants
+            ////    .FindAsync(id);
+
+            //await this.DbContext.SaveChangesAsync();
+        }
+        
         public List<SelectListItem> GetStatuses()
         {
             var statuses = this.DbContext.Statuses.Select(s => new SelectListItem

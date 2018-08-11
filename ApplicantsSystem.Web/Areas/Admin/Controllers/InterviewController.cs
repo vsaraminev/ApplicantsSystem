@@ -84,7 +84,7 @@
 
             //TempData.AddSuccessMessage(String.Format(SendTestMessage, test.Name, user.Email));
 
-            return View(nameof(Index));
+            return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> CreateOnSite()
@@ -120,6 +120,28 @@
             var interview = await this.interviews.Details(id);
 
             return View(interview);
+        }
+        
+        [HttpPost]
+        public async Task<IActionResult> SetTestResult(AdminSetApplicantTestResult model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return NotFound();
+            }
+
+            var interview = await this.dbContext.Interviews.FindAsync(model.InterviewId);
+
+            if (interview.ApplicantId != model.ApplicantId)
+            {
+                return NotFound();
+            }
+
+            interview.Test.ResultUrl = model.ResultUrl;
+
+            await this.dbContext.SaveChangesAsync();
+            
+            return RedirectToAction(nameof(Index));
         }
 
         private async Task<IEnumerable<SelectListItem>> GetInterviewers()

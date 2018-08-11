@@ -104,6 +104,8 @@
                 return RedirectToAction(nameof(Index));
             }
 
+            //TODO: Move to the service
+
             applicant.CurrentStatus = status.Id;
 
             applicant.Statuses.Add(
@@ -119,6 +121,18 @@
 
 
             return RedirectToAction(nameof(Index));
+        }
+
+        public IActionResult GetStatuses(int id)
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> GetInterviews(int id)
+        {
+            var interviews = await this.applicants.GetInterviews(id);
+
+            return View(interviews);
         }
 
         public async Task<IActionResult> Remove(int id)

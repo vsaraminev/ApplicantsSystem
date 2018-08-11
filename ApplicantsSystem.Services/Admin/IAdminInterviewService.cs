@@ -14,5 +14,7 @@
         Task CreateOnSite(CreateOnsiteInterviewBindingModel model);
 
         Task<AdminInterviewDetailsViewModel> Details(int id);
+
+        Task SetTestResult(AdminSetApplicantTestResult model);
     }
 }

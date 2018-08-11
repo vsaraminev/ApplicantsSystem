@@ -25,7 +25,7 @@
                 LinkedIn
             </th>
             <th>
-                Action
+                Statuses
             </th>
             <th>
                 Interviews
@@ -64,16 +64,10 @@
                 }
             </td>
             <td>
-                <a asp-controller="Applicants" asp-action="ChangeStatus" asp-route-id="@Model.Id" class="btn btn-success">Change Status</a>
+                <a asp-controller="Applicants" asp-action="GetStatuses" asp-route-id="@Model.Id" class="btn btn-primary">Show Statuses</a>
             </td>
             <td>
-                @if (Model.Interviews.Any())
-                {
-                    foreach (var interview in Model.Interviews)
-                    {
-                        @interview.Id<br />
-                    }
-                }
+                <a asp-controller="Applicants" asp-action="GetInterviews" asp-route-id="@Model.Id" class="btn btn-primary">Show Interviews</a>
             </td>
         </tr>
     </tbody>

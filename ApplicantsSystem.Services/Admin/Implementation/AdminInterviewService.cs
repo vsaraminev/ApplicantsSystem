@@ -28,12 +28,10 @@ namespace ApplicantsSystem.Services.Admin.Implementation
 
         public async Task CreateOffSite(CreateOffsiteInterviewBindingModel model)
         {
-            var test = DbContext.Tests.Find(model.TestId);
-
             var interview = new Interview()
             {
                 ApplicantId = model.ApplicantId,
-                Test = test,
+                TestId = model.TestId,
                 StartTime = DateTime.UtcNow.ToLocalTime(),
                 EndTime = null
             };
@@ -77,7 +75,20 @@ namespace ApplicantsSystem.Services.Admin.Implementation
                 .Interviews
                 .FindAsync(id);
 
+            var test = await this.DbContext.Tests.FindAsync(interview.TestId);
+            var applicant = await this.DbContext.Applicants.FindAsync(interview.ApplicantId);
+
+            interview.Applicant = applicant;
+            interview.Test = test;
+
             return this.Mapper.Map<AdminInterviewDetailsViewModel>(interview);
+        }
+
+        public Task SetTestResult(AdminSetApplicantTestResult model)
+        {
+
+            // TODO
+            throw new NotImplementedException();
         }
     }
 }

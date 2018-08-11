@@ -123,12 +123,6 @@ namespace ApplicantsSystem.Data.Migrations
                         principalTable: "Results",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
-                    //table.ForeignKey(
-                    //    name: "FK_Interviews_Tests_TestId",
-                    //    column: x => x.TestId,
-                    //    principalTable: "Tests",
-                    //    principalColumn: "Id",
-                    //    onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
