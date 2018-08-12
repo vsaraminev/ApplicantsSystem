@@ -1,12 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-using Microsoft.AspNetCore.Mvc.Rendering;
-
-namespace ApplicantsSystem.Services.Admin.Implementation
+﻿namespace ApplicantsSystem.Services.Admin.Implementation
 {
     using AutoMapper;
     using Common.Admin.BindingModels;
     using Common.Admin.ViewModels;
     using Data;
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Caching.Memory;
     using Models;
@@ -83,8 +81,6 @@ namespace ApplicantsSystem.Services.Admin.Implementation
         {
             var applicant = await this.DbContext
                 .Applicants
-                //.Include(a => a.Interviews)
-                //.Include(a=>a.Statuses)
                 .FirstOrDefaultAsync(a => a.Id == id);
 
             return this.Mapper.Map<AdminApplicantDetailsViewModel>(applicant);
@@ -99,6 +95,16 @@ namespace ApplicantsSystem.Services.Admin.Implementation
                 .FirstOrDefaultAsync(a => a.Id == id);
 
             return this.Mapper.Map<AdminApplicantInterviewsViewModel>(interviews);
+        }
+
+        public async Task<AdminApplicantStatusesViewModel> GetStatuses(int id)
+        {
+            var statuses = await this.DbContext
+                .Applicants
+                .Include(a => a.Statuses)
+                .FirstOrDefaultAsync(a => a.Id == id);
+
+            return this.Mapper.Map<AdminApplicantStatusesViewModel>(statuses);
         }
 
         public async Task ChangeStatus(AdminChangeApplicantsStatus model)
@@ -118,7 +124,7 @@ namespace ApplicantsSystem.Services.Admin.Implementation
 
             //await this.DbContext.SaveChangesAsync();
         }
-        
+
         public List<SelectListItem> GetStatuses()
         {
             var statuses = this.DbContext.Statuses.Select(s => new SelectListItem

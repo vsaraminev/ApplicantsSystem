@@ -26,6 +26,7 @@
         //The interview with {0} {1} will be held between {2} and {3} o'clock!
         public const string CreateTestMessage = "{0} test was created successfully!";
         public const string RemoveTestMessage = "Test was removed successfully!";
+        public const string SetTestResultMessage = "Result {0} is added successfully!";
 
         public const string EmailSubject = "Interview test from Applicants System";
         public const string EmailMessage = "To open your test <a href='{0}'>click here</a>.";

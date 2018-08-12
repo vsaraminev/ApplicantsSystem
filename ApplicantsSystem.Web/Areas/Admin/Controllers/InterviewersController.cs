@@ -42,7 +42,7 @@
 
             TempData.AddSuccessMessage(String.Format(AddInterviewertMessage, model.FirstName, model.LastName));
 
-            return this.RedirectToAction(nameof(Details));
+            return this.RedirectToAction(nameof(All));
         }
 
         public async Task<IActionResult> Details(string id)

@@ -1,0 +1,69 @@
+﻿@model AdminApplicantIndexViewModel
+@{
+    ViewData["Title"] = "Hired Or Rejected Applicants";
+}
+<br />
+<h2 class="text-center">Applicants Administration</h2>
+<br />
+<div class="text-center">
+    <a class="btn btn-success" style="margin-right: 15px" asp-area="Admin" asp-controller="Applicants" asp-action="Create">Add Applicant</a>
+</div>
+<br />
+<h3>@ViewData["Title"]</h3>
+<br />
+<ul class="nav nav-tabs">
+    <li class="nav-item nav-link active">
+        <a class="nav-link" asp-area="Admin" asp-controller="Applicants" asp-action="/Index">All Applicants In-Interview</a>
+    </li>
+    <li class="nav-item  nav-link active">
+        <a class="nav-link" asp-area="Admin" asp-controller="Applicants" asp-action="HiredOrRejected">All Applicants Hired/Rejected</a>
+    </li>
+</ul>
+<br />
+<table class="table table-bordered table-hover text-center">
+    <thead>
+        <tr>
+            <th>
+                First Name
+            </th>
+            <th>
+                Last Name
+            </th>
+            <th>
+                Status
+            </th>
+            <th>
+                Details
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model.Applicants)
+        {
+            <tr>
+                <td>
+                    @user.FirstName
+                </td>
+                <td>
+                    @user.LastName
+                </td>
+                <td>
+                    <form method="post" asp-area="Admin" asp-controller="Applicants" asp-action="ChangeStatus">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <input type="hidden" name="ApplicantId" value="@user.Id" />
+                                <select name="StatusId" asp-items="@Model.Statuses" class="form-control"></select>
+                            </div>
+                            <div class="col-md-4">
+                                <input class="btn btn-warning" type="submit" value="Change Status" />
+                            </div>
+                        </div>
+                    </form>
+                </td>
+                <td>
+                    <a class="btn btn-outline-primary" asp-area="Admin" asp-controller="Applicants" asp-action="Details" asp-route-id="@user.Id">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

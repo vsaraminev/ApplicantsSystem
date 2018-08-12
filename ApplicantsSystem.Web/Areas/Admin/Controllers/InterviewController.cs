@@ -132,15 +132,32 @@
 
             var interview = await this.dbContext.Interviews.FindAsync(model.InterviewId);
 
+            interview.Result = new Result()
+            {
+                InterviewId = interview.Id
+            };
+            
             if (interview.ApplicantId != model.ApplicantId)
             {
                 return NotFound();
             }
 
-            interview.Test.ResultUrl = model.ResultUrl;
+            interview.Result.ResultUrl = model.ResultUrl;
 
             await this.dbContext.SaveChangesAsync();
             
+            return RedirectToAction(nameof(Index));
+        }
+        
+        [HttpGet]
+        public IActionResult LeaveFeedback()
+        {
+            return View();
+        }
+
+        [HttpGet]
+        public IActionResult LeaveFeedback(string something)
+        {
             return RedirectToAction(nameof(Index));
         }
 

@@ -101,7 +101,7 @@ namespace ApplicantsSystem.Data.Migrations
 
                     b.Property<DateTime>("StartTime");
 
-                    b.Property<int>("TestId");
+                    b.Property<int?>("TestId");
 
                     b.HasKey("Id");
 
@@ -132,6 +132,24 @@ namespace ApplicantsSystem.Data.Migrations
                     b.ToTable("InterviewInterviewers");
                 });
 
+            modelBuilder.Entity("ApplicantsSystem.Models.Result", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("InterviewId");
+
+                    b.Property<string>("ResultUrl");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InterviewId")
+                        .IsUnique();
+
+                    b.ToTable("Results");
+                });
+
             modelBuilder.Entity("ApplicantsSystem.Models.Status", b =>
                 {
                     b.Property<int>("Id")
@@ -154,8 +172,6 @@ namespace ApplicantsSystem.Data.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100);
-
-                    b.Property<string>("ResultUrl");
 
                     b.Property<string>("Url");
 
@@ -368,8 +384,7 @@ namespace ApplicantsSystem.Data.Migrations
 
                     b.HasOne("ApplicantsSystem.Models.Test", "Test")
                         .WithMany("Interviews")
-                        .HasForeignKey("TestId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("TestId");
                 });
 
             modelBuilder.Entity("ApplicantsSystem.Models.InterviewInterviewer", b =>
@@ -382,6 +397,14 @@ namespace ApplicantsSystem.Data.Migrations
                     b.HasOne("ApplicantsSystem.Models.User", "Interviewer")
                         .WithMany("Interviews")
                         .HasForeignKey("InterviewerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ApplicantsSystem.Models.Result", b =>
+                {
+                    b.HasOne("ApplicantsSystem.Models.Interview", "Interview")
+                        .WithOne("Result")
+                        .HasForeignKey("ApplicantsSystem.Models.Result", "InterviewId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 

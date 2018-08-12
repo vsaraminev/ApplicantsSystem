@@ -21,9 +21,6 @@
         [Url]
         public string Url { get; set; }
 
-        [Url]
-        public string ResultUrl { get; set; }
-
         public ICollection<Interview> Interviews { get; set; }
     }
 }

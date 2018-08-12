@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace ApplicantsSystem.Data.Migrations
 {
-    public partial class Initialize : Migration
+    public partial class InitializeDatabase : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -61,7 +61,7 @@ namespace ApplicantsSystem.Data.Migrations
                     Email = table.Column<string>(nullable: false),
                     Phone = table.Column<string>(nullable: true),
                     LinkedIn = table.Column<string>(nullable: true),
-                    IsHired = table.Column<bool>(nullable: false)
+                    CurrentStatus = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -69,16 +69,16 @@ namespace ApplicantsSystem.Data.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Results",
+                name: "Statuses",
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    File = table.Column<string>(nullable: true)
+                    Name = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Results", x => x.Id);
+                    table.PrimaryKey("PK_Statuses", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -88,12 +88,38 @@ namespace ApplicantsSystem.Data.Migrations
                     Id = table.Column<int>(nullable: false)
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     Name = table.Column<string>(maxLength: 100, nullable: false),
-                    Url = table.Column<string>(nullable: true),
-                    ResultUrl = table.Column<string>(nullable: true)
+                    Url = table.Column<string>(nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Tests", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AplicantStatuses",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    ApplicantId = table.Column<int>(nullable: false),
+                    StatusId = table.Column<int>(nullable: false),
+                    Time = table.Column<DateTime>(nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AplicantStatuses", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AplicantStatuses_Applicants_ApplicantId",
+                        column: x => x.ApplicantId,
+                        principalTable: "Applicants",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AplicantStatuses_Statuses_StatusId",
+                        column: x => x.StatusId,
+                        principalTable: "Statuses",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -104,9 +130,8 @@ namespace ApplicantsSystem.Data.Migrations
                         .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
                     ApplicantId = table.Column<int>(nullable: false),
                     TestId = table.Column<int>(nullable: false),
-                    ResultId = table.Column<int>(nullable: false),
                     StartTime = table.Column<DateTime>(nullable: false),
-                    EndTime = table.Column<DateTime>(nullable: false)
+                    EndTime = table.Column<DateTime>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -118,9 +143,9 @@ namespace ApplicantsSystem.Data.Migrations
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Interviews_Results_ResultId",
-                        column: x => x.ResultId,
-                        principalTable: "Results",
+                        name: "FK_Interviews_Tests_TestId",
+                        column: x => x.TestId,
+                        principalTable: "Tests",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -129,19 +154,24 @@ namespace ApplicantsSystem.Data.Migrations
                 name: "Feedbacks",
                 columns: table => new
                 {
-                    Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
-                    InterviewId = table.Column<int>(maxLength: 200, nullable: false),
-                    Context = table.Column<string>(nullable: true),
+                    InterviewId = table.Column<int>(nullable: false),
+                    InterviewerId = table.Column<string>(nullable: false),
+                    Context = table.Column<string>(maxLength: 200, nullable: true),
                     Score = table.Column<int>(nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Feedbacks", x => x.Id);
+                    table.PrimaryKey("PK_Feedbacks", x => new { x.InterviewId, x.InterviewerId });
                     table.ForeignKey(
                         name: "FK_Feedbacks_Interviews_InterviewId",
                         column: x => x.InterviewId,
                         principalTable: "Interviews",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Feedbacks_AspNetUsers_InterviewerId",
+                        column: x => x.InterviewerId,
+                        principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -173,9 +203,25 @@ namespace ApplicantsSystem.Data.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Feedbacks_InterviewId",
+                name: "IX_AplicantStatuses_ApplicantId",
+                table: "AplicantStatuses",
+                column: "ApplicantId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AplicantStatuses_StatusId",
+                table: "AplicantStatuses",
+                column: "StatusId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Applicants_Email",
+                table: "Applicants",
+                column: "Email",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Feedbacks_InterviewerId",
                 table: "Feedbacks",
-                column: "InterviewId");
+                column: "InterviewerId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_InterviewInterviewers_InterviewId",
@@ -193,11 +239,6 @@ namespace ApplicantsSystem.Data.Migrations
                 column: "ApplicantId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Interviews_ResultId",
-                table: "Interviews",
-                column: "ResultId");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_Interviews_TestId",
                 table: "Interviews",
                 column: "TestId");
@@ -206,19 +247,22 @@ namespace ApplicantsSystem.Data.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "AplicantStatuses");
+
+            migrationBuilder.DropTable(
                 name: "Feedbacks");
 
             migrationBuilder.DropTable(
                 name: "InterviewInterviewers");
 
             migrationBuilder.DropTable(
+                name: "Statuses");
+
+            migrationBuilder.DropTable(
                 name: "Interviews");
 
             migrationBuilder.DropTable(
                 name: "Applicants");
-
-            migrationBuilder.DropTable(
-                name: "Results");
 
             migrationBuilder.DropTable(
                 name: "Tests");

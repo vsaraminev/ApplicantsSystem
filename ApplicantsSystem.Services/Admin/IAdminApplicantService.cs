@@ -16,6 +16,8 @@
 
         Task<AdminApplicantInterviewsViewModel> GetInterviews(int id);
 
+        Task<AdminApplicantStatusesViewModel> GetStatuses(int id);
+        
         Task ChangeStatus(AdminChangeApplicantsStatus model);
 
         List<SelectListItem> GetStatuses();

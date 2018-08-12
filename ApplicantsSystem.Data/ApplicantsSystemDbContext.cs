@@ -6,15 +6,10 @@
 
     public class ApplicantsSystemDbContext : IdentityDbContext<User>
     {
-        public ApplicantsSystemDbContext(DbContextOptions<ApplicantsSystemDbContext> options)
-            : base(options)
-        {
-        }
-
         public DbSet<Applicant> Applicants { get; set; }
 
         public DbSet<Test> Tests { get; set; }
-        
+
         public DbSet<Feedback> Feedbacks { get; set; }
 
         public DbSet<Interview> Interviews { get; set; }
@@ -24,6 +19,13 @@
         public DbSet<Status> Statuses { get; set; }
 
         public DbSet<InterviewInterviewer> InterviewInterviewers { get; set; }
+
+        public DbSet<Result> Results { get; set; }
+        
+        public ApplicantsSystemDbContext(DbContextOptions<ApplicantsSystemDbContext> options)
+            : base(options)
+        {
+        }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -62,7 +64,7 @@
                 .HasForeignKey(i => i.TestId);
 
             builder.Entity<Feedback>()
-                .HasKey(f => new {f.InterviewId, f.InterviewerId});
+                .HasKey(f => new { f.InterviewId, f.InterviewerId });
 
             builder.Entity<Feedback>()
                 .HasOne(f => f.Interview)
@@ -74,6 +76,11 @@
                 .WithMany(i => i.Feedbacks)
                 .HasForeignKey(f => f.InterviewerId);
 
+            builder.Entity<Interview>()
+                .HasOne(i => i.Result)
+                .WithOne(r => r.Interview)
+                .HasForeignKey<Result>(r => r.InterviewId);
+            
             base.OnModelCreating(builder);
         }
     }

@@ -1,4 +1,6 @@
-﻿namespace ApplicantsSystem.Services.Interviewer.Implementation
+﻿using Microsoft.EntityFrameworkCore;
+
+namespace ApplicantsSystem.Services.Interviewer.Implementation
 {
     using AutoMapper;
     using Common.Interviewer.BindingModels;
@@ -18,7 +20,7 @@
 
         public IEnumerable<InterviewerTestListingModel> All()
         {
-            var tests = this.DbContext.Tests.ToList();
+            var tests = this.DbContext.Tests.Include(t => t.Interviews).ToList();
             return this.Mapper.Map<IEnumerable<InterviewerTestListingModel>>(tests);
         }
 

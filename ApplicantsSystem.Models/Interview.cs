@@ -19,9 +19,11 @@
 
         public Applicant Applicant { get; set; }
 
-        public int TestId { get; set; }
+        public int? TestId { get; set; }
 
         public Test Test { get; set; }
+
+        public Result Result { get; set; }
 
         [DataType(DataType.DateTime)]
         public DateTime StartTime { get; set; }
