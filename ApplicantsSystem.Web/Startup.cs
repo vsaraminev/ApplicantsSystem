@@ -111,6 +111,7 @@
             services.AddScoped<IAdminInterviewerService, AdminInterviewerService>();
             services.AddScoped<IInterviewerTestsService, InterviewerTestsService>();
             services.AddScoped<IAdminInterviewService, AdminInterviewService>();
+            services.AddScoped<IInterviewerFeedbacksService, InterviewerFeedbacksService>();
         }
     }
 }

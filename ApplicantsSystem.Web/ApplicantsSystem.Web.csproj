@@ -23,8 +23,6 @@
 
   <ItemGroup>
     <Folder Include="Areas\Identity\Services\" />
-    <Folder Include="Areas\Interviewer\Data\" />
-    <Folder Include="Areas\Interviewer\Models\" />
   </ItemGroup>
 
   <ItemGroup>

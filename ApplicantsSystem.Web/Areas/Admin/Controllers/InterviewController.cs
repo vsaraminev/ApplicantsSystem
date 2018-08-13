@@ -148,18 +148,6 @@
             
             return RedirectToAction(nameof(Index));
         }
-        
-        [HttpGet]
-        public IActionResult LeaveFeedback()
-        {
-            return View();
-        }
-
-        [HttpGet]
-        public IActionResult LeaveFeedback(string something)
-        {
-            return RedirectToAction(nameof(Index));
-        }
 
         private async Task<IEnumerable<SelectListItem>> GetInterviewers()
         {

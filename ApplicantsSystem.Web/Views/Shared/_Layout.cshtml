@@ -26,23 +26,29 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             @if (User.IsInRole(WebConstants.AdministratorRole))
             {
-                <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" asp-area="Admin" asp-controller="Applicants" asp-action="Index">Applicants</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" asp-area="Admin" asp-controller="Interviewers" asp-action="All">Interviewers</a>
-                    </li>
-                    <li class="nav-item active">
-                        <a class="nav-link" asp-area="Admin" asp-controller="Interview" asp-action="Index">Interviews</a>
-                    </li>
-                </ul>
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" asp-area="Admin" asp-controller="Applicants" asp-action="Index">Applicants</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" asp-area="Admin" asp-controller="Interviewers" asp-action="All">Interviewers</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" asp-area="Admin" asp-controller="Interview" asp-action="Index">Interviews</a>
+                </li>
+                <li class="nav-item active">
+                    <a class="nav-link" asp-area="Interviewer" asp-controller="Tests" asp-action="All">Tests</a>
+                </li>
+            </ul>
             }
             @if (User.IsInRole(WebConstants.InterviewerRole))
             {
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
                         <a class="nav-link" asp-area="Interviewer" asp-controller="Tests" asp-action="All">Tests</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" asp-area="Interviewer" asp-controller="Feedbacks" asp-action="Index">Interviews</a>
                     </li>
                 </ul>
             }
