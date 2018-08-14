@@ -1,4 +1,6 @@
-﻿namespace ApplicantsSystem.Web
+﻿using ApplicantsSystem.Services.Html;
+
+namespace ApplicantsSystem.Web
 {
     using ApplicantsSystem.Models;
     using AutoMapper;
@@ -69,7 +71,7 @@
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.SeedDatabase();
-            
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -112,6 +114,7 @@
             services.AddScoped<IInterviewerTestsService, InterviewerTestsService>();
             services.AddScoped<IAdminInterviewService, AdminInterviewService>();
             services.AddScoped<IInterviewerFeedbacksService, InterviewerFeedbacksService>();
+            //services.AddScoped<IHtmlService, IHtmlService>();
         }
     }
 }

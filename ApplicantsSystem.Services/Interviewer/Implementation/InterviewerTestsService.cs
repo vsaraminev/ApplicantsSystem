@@ -1,15 +1,14 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace ApplicantsSystem.Services.Interviewer.Implementation
+﻿namespace ApplicantsSystem.Services.Interviewer.Implementation
 {
     using AutoMapper;
     using Common.Interviewer.BindingModels;
     using Common.Interviewer.ViewModels;
     using Data;
-    using System.Collections.Generic;
-    using System.Threading.Tasks;
-    using System.Linq;
+    using Microsoft.EntityFrameworkCore;
     using Models;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
 
     public class InterviewerTestsService : BaseService, IInterviewerTestsService
     {

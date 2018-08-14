@@ -19,9 +19,9 @@
 
         public IActionResult All()
         {
-            var tests = this.tests.All();
+            var allTests = this.tests.All();
 
-            return View(tests);
+            return View(allTests);
         }
 
         public IActionResult Create()
