@@ -13,7 +13,8 @@
         {
             //this.CreateMap<Applicant, AdminApplicantListingViewModel>();
             this.CreateMap<User, AdminInterviewerListingViewModel>();
-            this.CreateMap<Interview, AdminInterviewsListingViewModel>();
+            //this.CreateMap<Interview, AdminInterviewsListingViewModel>();
+            this.CreateMap<Interview, AdminInterviewDetailsViewModel>();
             this.CreateMap<InterviewInterviewer, InterviewerInterviewsListingModel>();
             this.CreateMap<Feedback, InterviewerFeedbackDetailsViewModel>();
             this.CreateMap<CreateApplicantBindingModel, Applicant>();

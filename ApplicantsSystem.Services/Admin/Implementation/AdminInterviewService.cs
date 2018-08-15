@@ -1,4 +1,6 @@
-﻿namespace ApplicantsSystem.Services.Admin.Implementation
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace ApplicantsSystem.Services.Admin.Implementation
 {
     using AutoMapper;
     using Common.Admin.BindingModels;
@@ -75,36 +77,24 @@
         {
             var interview = await this.DbContext
                 .Interviews
+                .Include(i => i.Interviewers)
+                .Include(i => i.Feedbacks)
+                .Include(f => f.Applicant)
+                .Include(i => i.Test)
                 .FirstOrDefaultAsync(i => i.Id == id);
 
-            var interviewers = this.DbContext.InterviewInterviewers.Where(i => i.InterviewId == interview.Id).ToList();
-
-            foreach (var interviewer in interviewers)
+            foreach (var interviewer in interview.Interviewers)
             {
-                var interv =await this.DbContext.Users.FirstOrDefaultAsync(i => i.Id == interviewer.InterviewerId);
+                var interviewerUser = await this.DbContext.Users.FirstOrDefaultAsync(i => i.Id == interviewer.InterviewerId);
 
-                interviewer.Interviewer = interv;
+                interviewer.Interviewer = interviewerUser;
             }
-
-            var test = await this.DbContext.Tests.FindAsync(interview.TestId);
-
-            var applicant = await this.DbContext.Applicants.FindAsync(interview.ApplicantId);
 
             var result = await this.DbContext.Results.FirstOrDefaultAsync(i => i.Id == interview.Id);
-            
-            if (result == null)
-            {
-                interview.Result = new Result();
-            }
-            else
-            {
-                interview.Result = result;
-            }
+
+            interview.Result = result ?? new Result();
 
             interview.Result.Id = interview.Id;
-
-            interview.Applicant = applicant;
-            interview.Test = test;
 
             return this.Mapper.Map<AdminInterviewDetailsViewModel>(interview);
         }

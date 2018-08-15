@@ -69,59 +69,131 @@
 }
 else
 {
-    <table class="table table-bordered  table-hover text-center">
-        <thead>
-            <tr>
-                <th>
-                    Applicant Name
-                </th>
-                <th>
-                    First Interviewer Name
-                </th>
-                <th>
-                    Second Interviewer Name
-                </th>
-                <th>
-                    Start Time
-                </th>
-                <th>
-                    End Time
-                </th>
-                <th>
-                    Feedback
-                </th>
 
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>
-                    @Model.Applicant.FirstName <br/> @Model.Applicant.LastName
-                </td>
-                <td>
-                    @Model.Interviewers.First().Interviewer.FirstName  <br/> @Model.Interviewers.First().Interviewer.LastName
-                </td>
-                <td>
-                    @if (Model.Interviewers.Last() != null)
-                    {
-                        @Model.Interviewers.Last().Interviewer.FirstName <br/> @Model.Interviewers.Last().Interviewer.LastName
-                    }
-                    else
-                    {
-                        <p> &mdash; </p>
-                    }
-                </td>
-                <td>
-                    @Model.StartTime
-                </td>
-                <td>
-                    @Model.EndTime
-                </td>
-                <td>
-                    <a asp-area="Interviewer" asp-controller="Feedbacks" asp-action="LeaveFeedback" class="btn btn-outline-primary" asp-route-InterviewId="@Model.Id">Leave Feedback</a>
-                </td>
-            </tr>
-        </tbody>
+    <table class="table table-bordered  table-hover">
+        <tr>
+            <th>
+                Applicant Name:
+            </th>
+            <td>
+                @Model.Applicant.FirstName &nbsp; @Model.Applicant.LastName
+            </td>
+        </tr>
+        <tr>
+            <th>
+                First Interviewer Name:
+            </th>
+            <td>
+                @Model.Interviewers.First().Interviewer.FirstName  &nbsp; @Model.Interviewers.First().Interviewer.LastName
+            </td>
+        </tr>
+        <tr>
+            <th>
+                &emsp; Feedback:
+            </th>
+            <td>
+                @if (Model.Feedbacks.Count != 0)
+                {
+                    @Html.Raw(Model.Feedbacks.First().Context)
+                }
+                else
+                {
+                    <p>
+                        Awaiting interviewer to leave feedback.
+                    </p>
+                }
+            </td>
+        </tr>
+        <tr>
+            <th>
+                &emsp; Score:
+            </th>
+            <td>
+                @if (Model.Feedbacks.Count != 0)
+                {
+                    @Html.Raw(Model.Feedbacks.First().Score)
+                }
+                else
+                {
+                    <p>
+                        Awaiting interviewer to leave feedback.
+                    </p>
+                }
+            </td>
+        </tr>
+        <tr>
+            <th>
+                Second Interviewer Name:
+            </th>
+            <td>
+                @if (Model.Interviewers.Count > 1)
+                {
+                    @Model.Interviewers.Last().Interviewer.LastName   @Model.Interviewers.Last().Interviewer.FirstName
+                }
+                else
+                {
+                    <p> &mdash; </p>
+                }
+            </td>
+        </tr>
+        <tr>
+            <th>
+                &emsp; Feedback:
+            </th>
+            <td>
+                @if (Model.Interviewers.Count > 1 && Model.Feedbacks.Count == 0)
+                {
+                    <p>
+                        Awaiting interviewer to leave feedback.
+                    </p>
+                }
+                else if (Model.Interviewers.Last() != null)
+                {
+                    @Html.Raw(Model.Feedbacks.Last().Context)
+                }
+                else
+                {
+                    <p> &mdash; </p>
+                }
+            </td>
+        </tr>
+        <tr>
+            <th>
+                &emsp; Score:
+            </th>
+            <td>
+                @if (Model.Interviewers.Count > 1 && Model.Feedbacks.Count == 0)
+                {
+                    <p>
+                        Awaiting interviewer to leave feedback.
+                    </p>
+                }
+                else if (Model.Interviewers.Last() != null)
+                {
+                    @Model.Feedbacks.Last().Score
+                }
+                else
+                {
+                    <p> &mdash; </p>
+                }
+            </td>
+        </tr>
+        <tr>
+            <th>
+                Start Time:
+            </th>
+            <td>
+                @Model.StartTime
+            </td>
+        </tr>
+        <tr>
+            <th>
+                End Time:
+            </th>
+            <td>
+                @Model.EndTime
+            </td>
+        </tr>
     </table>
 }
 

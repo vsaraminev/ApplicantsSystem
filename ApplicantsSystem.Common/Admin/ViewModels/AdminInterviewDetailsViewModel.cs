@@ -1,5 +1,6 @@
 ﻿namespace ApplicantsSystem.Common.Admin.ViewModels
 {
+    using Interviewer.ViewModels;
     using Models;
     using System;
     using System.Collections.Generic;
@@ -22,6 +23,8 @@
 
         public DateTime? EndTime { get; set; }
 
-        public ICollection<InterviewInterviewer> Interviewers { get; set; }
+        public ICollection<InterviewerInterviewsListingModel> Interviewers { get; set; }
+
+        public ICollection<InterviewerFeedbackDetailsViewModel> Feedbacks { get; set; }
     }
 }

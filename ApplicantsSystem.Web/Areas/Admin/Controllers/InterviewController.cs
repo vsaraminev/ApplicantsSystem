@@ -148,7 +148,7 @@
             
             return RedirectToAction(nameof(Index));
         }
-
+        
         private async Task<IEnumerable<SelectListItem>> GetInterviewers()
         {
             var interviewers = await this.userManager
