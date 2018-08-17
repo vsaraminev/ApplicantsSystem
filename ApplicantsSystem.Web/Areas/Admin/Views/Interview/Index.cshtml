@@ -9,14 +9,14 @@
     <a class="btn btn-success" style="margin-right: 15px" asp-area="Admin" asp-controller="Interview" asp-action="CreateOnSite"> In-Person Interview</a>
     <a class="btn btn-success" style="margin-right: 15px" asp-area="Admin" asp-controller="Interview" asp-action="CreateOffSite">Online Test</a>
 </div>
-<br/>
+<br />
 <h3 class="text-center">All Interviews</h3>
-<br/>
+<br />
 <table class="table table-bordered  table-hover text-center">
     <thead>
         <tr>
             <th>
-                Applicant Id
+                Applicant Full Name
             </th>
             <th>
                 Interview Type
@@ -27,20 +27,6 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var interview in Model)
-        {
-            <tr>
-                <td>
-                    @interview.ApplicantId
-
-                </td>
-                <td>
-                   @(interview.TestId == 0 ? "On-Site Interview" : "Off-Site Interview") 
-                </td>
-                <td>
-                    <a class="btn btn-outline-primary" asp-area="Admin" asp-controller="Interview" asp-action="Details" asp-route-id="@interview.Id">Details</a>
-                </td>
-            </tr>
-        }
+        @Html.DisplayForModel()
     </tbody>
 </table>

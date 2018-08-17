@@ -16,7 +16,7 @@
 
         Task<AdminApplicantInterviewsViewModel> GetInterviews(int id);
 
-        Task<AdminApplicantStatusesViewModel> GetStatuses(int id);
+        Task<IEnumerable<AdminApplicantStatusesViewModel>> GetStatuses(int id);
         
         Task ChangeStatus(AdminChangeApplicantsStatus model);
 

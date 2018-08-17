@@ -24,10 +24,7 @@
     <thead>
         <tr>
             <th>
-                First Name
-            </th>
-            <th>
-                Last Name
+                Applicant Full Name
             </th>
             <th>
                 Status
@@ -42,10 +39,7 @@
         {
             <tr>
                 <td>
-                    @user.FirstName
-                </td>
-                <td>
-                    @user.LastName
+                    @user.FirstName &nbsp; @user.LastName
                 </td>
                 <td>
                     <form method="post" asp-area="Admin" asp-controller="Applicants" asp-action="ChangeStatus">

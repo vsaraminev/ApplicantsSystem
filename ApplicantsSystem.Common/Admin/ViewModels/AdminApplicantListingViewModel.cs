@@ -1,8 +1,8 @@
-﻿using System.Collections.Generic;
-using ApplicantsSystem.Models;
-
-namespace ApplicantsSystem.Common.Admin.ViewModels
+﻿namespace ApplicantsSystem.Common.Admin.ViewModels
 {
+    using Models;
+    using System.Collections.Generic;
+
     public class AdminApplicantListingViewModel
     {
         public int Id { get; set; }

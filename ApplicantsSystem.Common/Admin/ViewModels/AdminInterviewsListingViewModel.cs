@@ -8,7 +8,7 @@
 
         public int ApplicantId { get; set; }
 
-        public Applicant Applicant { get; set; }
+        public string ApplicantName { get; set; }
 
         public int TestId { get; set; }
 

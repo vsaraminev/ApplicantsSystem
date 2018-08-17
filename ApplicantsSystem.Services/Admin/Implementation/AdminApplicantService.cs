@@ -28,27 +28,8 @@
 
         public IEnumerable<AdminApplicantListingViewModel> ApplicantsAll()
         {
-            //if (cache.TryGetValue(AppCacheKey, out IEnumerable<AdminApplicantListingViewModel> app))
-            //{
-            //    return app;
-            //}
-
-            //var dbApps = this.DbContext
-            //    .Applicants
-            //    .Include(a => a.Interviews)
-            //    .Include(a => a.Statuses)
-            //    .ThenInclude(s => s.Status)
-            //    .ToList();
-
-            //app =  this.Mapper.Map<IEnumerable<AdminApplicantListingViewModel>>(dbApps);
-
-            //cache.Set(AppCacheKey, app);
-
-            //return app;
-
             var applicants = this.DbContext
                 .Applicants
-                .Include(a => a.Interviews)
                 .Include(a => a.Statuses)
                 .ThenInclude(s => s.Status)
                 .ToList();
@@ -97,32 +78,44 @@
             return this.Mapper.Map<AdminApplicantInterviewsViewModel>(interviews);
         }
 
-        public async Task<AdminApplicantStatusesViewModel> GetStatuses(int id)
+        public async Task<IEnumerable<AdminApplicantStatusesViewModel>> GetStatuses(int id)
         {
             var statuses = await this.DbContext
-                .Applicants
-                .Include(a => a.Statuses)
-                .FirstOrDefaultAsync(a => a.Id == id);
+                .AplicantStatuses
+                .Include(a => a.Applicant)
+                .Where(a => a.ApplicantId == id)
+                .Select(a => new AdminApplicantStatusesViewModel()
+                {
+                    ApplicantName = a.Applicant.FirstName + " " + a.Applicant.LastName,
+                    StatusName = a.Status.Name,
+                    Time = a.Time
+                })
+                .ToListAsync();
 
-            return this.Mapper.Map<AdminApplicantStatusesViewModel>(statuses);
+            return statuses;
         }
 
         public async Task ChangeStatus(AdminChangeApplicantsStatus model)
         {
-            //var applicantExists = await this.DbContext.Applicants.AnyAsync(a => a.Id == model.ApplicantId);
+            var applicant = await this.DbContext.Applicants.FirstOrDefaultAsync(a => a.Id == model.ApplicantId);
 
-            //var statusExists = await this.DbContext.Statuses.AnyAsync(s => s.Id == model.StatusId);
+            var status = await this.DbContext.Statuses.FirstOrDefaultAsync(s => s.Id == model.StatusId);
 
+            if (status == null || applicant == null)
+            {
+                throw new InvalidOperationException("Invalid Identity details.");
+            }
 
-            //if (!statusExists || !applicantExists)
-            //{
-            //}
+            applicant.CurrentStatus = status.Id;
 
-            //////var applicant = await this.DbContext
-            ////    .Applicants
-            ////    .FindAsync(id);
+            applicant.Statuses.Add(
+                new AplicantStatus
+                {
+                    StatusId = status.Id,
+                    Time = DateTime.UtcNow
+                });
 
-            //await this.DbContext.SaveChangesAsync();
+            await this.DbContext.SaveChangesAsync();
         }
 
         public List<SelectListItem> GetStatuses()

@@ -1,7 +1,36 @@
-﻿
+﻿@model IEnumerable<AdminApplicantStatusesViewModel>
 @{
-    ViewData["Title"] = "GetStatuses";
+    ViewData["Title"] = $"Status History";
 }
+<br/>
+<h2>@ViewData["Title"]</h2>
+<br/>
+<table class="table table-bordered  table-hover text-center">
+    <thead>
+    <tr>
+        <th>
+            Status
+        </th>
+        <th>
+            Date
+        </th>
+       
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var status in Model)
+    {
+        <tr>
+            <td>
+                @status.StatusName
+            </td>
+            <td>
+                @status.Time.ToLongDateString() &nbsp; @status.Time.ToLongTimeString()
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
 
-<h2>GetStatuses</h2>
+<a asp-controller="Applicants" asp-action="Index" class="btn btn-outline-primary">Back</a>
 

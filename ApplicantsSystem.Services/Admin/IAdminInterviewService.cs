@@ -7,7 +7,7 @@
 
     public interface IAdminInterviewService
     {
-        IEnumerable<AdminInterviewsListingViewModel> All();
+        Task<IEnumerable<AdminInterviewsListingViewModel>> All();
 
         Task CreateOffSite(CreateOffsiteInterviewBindingModel model);
 

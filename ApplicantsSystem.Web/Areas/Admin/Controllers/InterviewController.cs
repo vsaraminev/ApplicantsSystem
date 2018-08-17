@@ -35,9 +35,9 @@
             this.emailSender = emailSender;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var model = this.interviews.All();
+            var model = await this.interviews.All();
 
             return View(model);
         }

@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace ApplicantsSystem.Services.Admin.Implementation
+﻿namespace ApplicantsSystem.Services.Admin.Implementation
 {
     using AutoMapper;
     using Common.Admin.BindingModels;
@@ -20,9 +18,12 @@ namespace ApplicantsSystem.Services.Admin.Implementation
         {
         }
 
-        public IEnumerable<AdminInterviewsListingViewModel> All()
+        public async Task<IEnumerable<AdminInterviewsListingViewModel>> All()
         {
-            var interviews = this.DbContext.Interviews.ToList();
+            var interviews = await this.DbContext
+                .Interviews
+                .Include(i => i.Applicant)
+                .ToListAsync();
 
             return this.Mapper.Map<IEnumerable<AdminInterviewsListingViewModel>>(interviews);
         }

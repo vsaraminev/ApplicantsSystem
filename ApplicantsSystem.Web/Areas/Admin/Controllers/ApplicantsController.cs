@@ -1,15 +1,12 @@
 ﻿namespace ApplicantsSystem.Web.Areas.Admin.Controllers
 {
-    using ApplicantsSystem.Models;
     using Common.Admin.BindingModels;
     using Common.Admin.ViewModels;
     using Data;
     using Infrastructure;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.EntityFrameworkCore;
     using Microsoft.Extensions.Caching.Memory;
     using Services.Admin;
-    using System;
     using System.Linq;
     using System.Threading.Tasks;
     using static ApplicantsSystem.Common.Constants.WebConstants;
@@ -90,32 +87,12 @@
         [HttpPost]
         public async Task<IActionResult> ChangeStatus(AdminChangeApplicantsStatus model)
         {
-            var applicant = await this.db.Applicants.FirstOrDefaultAsync(a => a.Id == model.ApplicantId);
-
-            var status = await this.db.Statuses.FirstOrDefaultAsync(s => s.Id == model.StatusId);
-
-            if (status == null || applicant == null)
-            {
-                ModelState.AddModelError(string.Empty, "Invalid Identity details.");
-            }
-
             if (!ModelState.IsValid)
             {
                 return RedirectToAction(nameof(Index));
             }
 
-            //TODO: Move to the service
-
-            applicant.CurrentStatus = status.Id;
-
-            applicant.Statuses.Add(
-                new AplicantStatus
-                {
-                    StatusId = status.Id,
-                    Time = DateTime.UtcNow
-                });
-
-            await this.db.SaveChangesAsync();
+            await this.applicants.ChangeStatus(model);
 
             TempData.AddSuccessMessage(ChangeApplicantStatusMessage); //TODO: To finish success message
 
@@ -123,9 +100,11 @@
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult GetStatuses(int id)
+        public async Task<IActionResult> GetStatuses(int id)
         {
-            return View();
+            var statuses = await this.applicants.GetStatuses(id);
+
+            return View(statuses);
         }
 
         public async Task<IActionResult> GetInterviews(int id)
