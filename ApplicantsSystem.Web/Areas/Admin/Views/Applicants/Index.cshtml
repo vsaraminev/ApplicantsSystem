@@ -47,7 +47,9 @@
                         <div class="row">
                             <div class="col-md-8">
                                 <input type="hidden" name="ApplicantId" value="@user.Id" />
-                                <select name="StatusId" asp-items="@Model.Statuses" class="form-control"></select>
+                                <select name="StatusId" asp-items="@Model.Statuses" class="form-control">
+                                    <option selected="selected" disabled="disabled">Select status</option>
+                                </select>
                             </div>
                             <div class="col-md-4">
                                 <input class="btn btn-warning" type="submit" value="Change Status" />

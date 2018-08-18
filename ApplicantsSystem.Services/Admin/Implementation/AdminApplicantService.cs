@@ -108,7 +108,9 @@
 
             applicant.CurrentStatus = status.Id;
 
-            applicant.Statuses.Add(
+            applicant
+                .Statuses
+                .Add(
                 new AplicantStatus
                 {
                     StatusId = status.Id,
@@ -120,14 +122,30 @@
 
         public List<SelectListItem> GetStatuses()
         {
-            var statuses = this.DbContext.Statuses.Select(s => new SelectListItem
-            {
-                Text = s.Name,
-                Value = s.Id.ToString()
-            })
+            var statuses = this.DbContext
+                .Statuses
+                .Select(s => new SelectListItem
+                {
+                    Text = s.Name,
+                    Value = s.Id.ToString()
+                })
                 .ToList();
 
             return statuses;
+        }
+
+        public List<SelectListItem> GetApplicants()
+        {
+            var applicants = this.DbContext
+                .Applicants
+                .Select(t => new SelectListItem
+                {
+                    Text = $"{t.FirstName} {t.LastName}",
+                    Value = t.Id.ToString()
+                })
+                .ToList();
+
+            return applicants;
         }
 
         public async Task Remove(int id)

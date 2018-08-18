@@ -93,9 +93,8 @@
             }
 
             await this.applicants.ChangeStatus(model);
-
-            TempData.AddSuccessMessage(ChangeApplicantStatusMessage); //TODO: To finish success message
-
+            
+            TempData.AddSuccessMessage(ChangeApplicantStatusMessage);
 
             return RedirectToAction(nameof(Index));
         }

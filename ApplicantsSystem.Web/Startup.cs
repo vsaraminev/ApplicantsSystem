@@ -1,6 +1,4 @@
-﻿using ApplicantsSystem.Services.Html;
-
-namespace ApplicantsSystem.Web
+﻿namespace ApplicantsSystem.Web
 {
     using ApplicantsSystem.Models;
     using AutoMapper;
@@ -20,7 +18,6 @@ namespace ApplicantsSystem.Web
     using Services.Admin.Implementation;
     using Services.Interviewer;
     using Services.Interviewer.Implementation;
-    using System;
 
     public class Startup
     {
@@ -40,6 +37,8 @@ namespace ApplicantsSystem.Web
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+
+           
 
             services.AddResponseCaching();
 
@@ -71,7 +70,7 @@ namespace ApplicantsSystem.Web
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.SeedDatabase();
-
+            
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

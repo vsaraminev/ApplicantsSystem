@@ -22,6 +22,8 @@
 
         List<SelectListItem> GetStatuses();
 
+        List<SelectListItem> GetApplicants();
+
         Task Remove(int id);
     }
 }

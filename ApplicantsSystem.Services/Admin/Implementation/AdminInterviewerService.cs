@@ -47,7 +47,7 @@
 
             return this.Mapper.Map<AdminInterviewerDetailsViewModel>(interviewer);
         }
-
+        
         public async Task Remove(string id)
         {
             var interviewer = await this.userManager.FindByIdAsync(id);

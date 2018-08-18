@@ -8,8 +8,8 @@
     using Microsoft.AspNetCore.Identity.UI.Services;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
-    using Microsoft.EntityFrameworkCore;
     using Services.Admin;
+    using Services.Interviewer;
     using System;
     using System.Collections.Generic;
     using System.Linq;
@@ -18,19 +18,23 @@
 
     public class InterviewController : BaseAdminController
     {
-        private readonly ApplicantsSystemDbContext dbContext;
         private readonly UserManager<User> userManager;
         private readonly IAdminInterviewService interviews;
+        private readonly IAdminApplicantService applicants;
+        private readonly IInterviewerTestsService tests;
         private readonly IEmailSender emailSender;
 
         public InterviewController(
             IAdminInterviewService interviews,
-            ApplicantsSystemDbContext dbContext,
+            IAdminApplicantService applicants,
+            IInterviewerTestsService tests,
+        ApplicantsSystemDbContext dbContext,
             UserManager<User> userManager,
             IEmailSender emailSender)
         {
             this.interviews = interviews;
-            this.dbContext = dbContext;
+            this.applicants = applicants;
+            this.tests = tests;
             this.userManager = userManager;
             this.emailSender = emailSender;
         }
@@ -42,39 +46,28 @@
             return View(model);
         }
 
-        public async Task<IActionResult> CreateOffSite()
+        public IActionResult CreateOnline()
         {
-            var tests = await this.dbContext
-                .Tests
-                .Select(t => new SelectListItem
-                {
-                    Text = t.Name,
-                    Value = t.Id.ToString()
-                })
-                .ToListAsync();
+            var allTests = this.tests.GetTests();
 
-            return View(new CreateOffsiteInterviewBindingModel
+            return View(new CreateOnlineInterviewBindingModel
             {
-                Applicants = await this.GetApplicants(),
-                Tests = tests
+                Applicants = this.applicants.GetApplicants(),
+                Tests = allTests
             });
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateOffSite(CreateOffsiteInterviewBindingModel model)
+        public async Task<IActionResult> CreateOnline(CreateOnlineInterviewBindingModel model)
         {
             if (!ModelState.IsValid)
             {
                 return View(model);
             }
 
-            await this.interviews.CreateOffSite(model);
+            await this.interviews.CreateOnline(model);
 
-            //var user = await this.dbContext.Applicants.FirstOrDefaultAsync(a => a.Id == model.ApplicantId);
-
-            //var test = await this.dbContext.Tests.FirstOrDefaultAsync(t => t.Id == model.TestId);
-
-            //var testLink = test.Url;
+            //var testLink = model.Test.Url;
 
             //var subject = EmailSubject;
 
@@ -82,16 +75,16 @@
 
             //await emailSender.SendEmailAsync(user.Email, subject, message);
 
-            //TempData.AddSuccessMessage(String.Format(SendTestMessage, test.Name, user.Email));
+            TempData.AddSuccessMessage(String.Format(SendTestMessage, model.Test.Name, model.Applicant.Email));
 
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> CreateOnSite()
+        public async Task<IActionResult> CreateInPerson()
         {
-            return View(new CreateOnsiteInterviewBindingModel
+            return View(new CreateInPersonInterviewBindingModel
             {
-                Applicants = await this.GetApplicants(),
+                Applicants = this.applicants.GetApplicants(),
                 Interviewers = await this.GetInterviewers(),
                 StartTime = DateTime.UtcNow.ToLocalTime(),
                 EndTime = DateTime.UtcNow.ToLocalTime().AddMinutes(30)
@@ -99,29 +92,36 @@
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateOnSite(CreateOnsiteInterviewBindingModel model)
+        public async Task<IActionResult> CreateInPerson(CreateInPersonInterviewBindingModel model)
         {
             if (!ModelState.IsValid)
             {
-                model.Applicants = await this.GetApplicants();
+                model.Applicants = this.applicants.GetApplicants();
                 model.Interviewers = await this.GetInterviewers();
                 return View(model);
             }
 
-            await this.interviews.CreateOnSite(model);
+            await this.interviews.CreateInPerson(model);
 
             TempData.AddSuccessMessage(InterviewMessage); //TODO better success message!
 
             return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> OnlineDetails(int id)
         {
-            var interview = await this.interviews.Details(id);
+            var interview = await this.interviews.OnlineDetails(id);
 
             return View(interview);
         }
-        
+
+        public async Task<IActionResult> InPersonDetails(int id)
+        {
+            var interview = await this.interviews.InPersonDetails(id);
+
+            return View(interview);
+        }
+
         [HttpPost]
         public async Task<IActionResult> SetTestResult(AdminSetApplicantTestResult model)
         {
@@ -130,25 +130,11 @@
                 return NotFound();
             }
 
-            var interview = await this.dbContext.Interviews.FindAsync(model.InterviewId);
+            await this.interviews.SetTestResult(model);
 
-            interview.Result = new Result()
-            {
-                InterviewId = interview.Id
-            };
-            
-            if (interview.ApplicantId != model.ApplicantId)
-            {
-                return NotFound();
-            }
-
-            interview.Result.ResultUrl = model.ResultUrl;
-
-            await this.dbContext.SaveChangesAsync();
-            
             return RedirectToAction(nameof(Index));
         }
-        
+
         private async Task<IEnumerable<SelectListItem>> GetInterviewers()
         {
             var interviewers = await this.userManager
@@ -163,18 +149,6 @@
                 .ToList();
 
             return interviewersListItems;
-        }
-
-        private async Task<IEnumerable<SelectListItem>> GetApplicants()
-        {
-            return await this.dbContext
-                .Applicants
-                .Select(t => new SelectListItem
-                {
-                    Text = $"{t.FirstName} {t.LastName}",
-                    Value = t.Id.ToString()
-                })
-                .ToListAsync();
         }
     }
 }

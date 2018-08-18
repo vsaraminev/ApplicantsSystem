@@ -5,6 +5,9 @@
         public const string AdministratorRole = "Administrator";
         public const string InterviewerRole = "Interviewer";
 
+        public const string FirstInterviewer = "First Interviewer";
+        public const string SecondInterviewer = "Second Interviewer";
+
         public const string TempDataSuccessMessageKey = "SuccessMessage";
 
         public const string AdminArea = "Admin";
@@ -18,7 +21,7 @@
 
         public const string AddApplicantMessage = "Applicant {0} {1} is added successfully!";
         public const string AddInterviewertMessage = "Interviewer {0} {1} is added successfully!";
-        public const string ChangeApplicantStatusMessage = "{0) {1} status was changed to successfully!";
+        public const string ChangeApplicantStatusMessage = "Status was changed successfully!";
         public const string RemoveApplicantMessage = "Applicant was removed successfully!";
         public const string RemoveInterviewerMessage = "Applicant was removed successfully!";
         public const string SendTestMessage = "{0} test was send to {1} successfully!";

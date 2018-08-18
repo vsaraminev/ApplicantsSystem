@@ -28,12 +28,22 @@
             return this.Mapper.Map<IEnumerable<AdminInterviewsListingViewModel>>(interviews);
         }
 
-        public async Task CreateOffSite(CreateOffsiteInterviewBindingModel model)
+        public async Task CreateOnline(CreateOnlineInterviewBindingModel model)
         {
+            var applicant = await this.DbContext.Applicants.FirstOrDefaultAsync(a => a.Id == model.ApplicantId);
+            var test = await this.DbContext.Tests.FirstOrDefaultAsync(t => t.Id == model.TestId);
+
+            if (applicant == null || test == null)
+            {
+                throw new InvalidOperationException("Invalid Identity details.");
+            }
+
             var interview = new Interview()
             {
                 ApplicantId = model.ApplicantId,
                 TestId = model.TestId,
+                Applicant = applicant,
+                Test = test,
                 StartTime = DateTime.UtcNow.ToLocalTime(),
                 EndTime = null
             };
@@ -42,15 +52,13 @@
             await this.DbContext.SaveChangesAsync();
         }
 
-        public async Task CreateOnSite(CreateOnsiteInterviewBindingModel model)
+        public async Task CreateInPerson(CreateInPersonInterviewBindingModel model)
         {
             //var interview = this.Mapper.Map<Interview>(model);
 
             var firstInterviewer = this.DbContext.Users.Find(model.FirstInterviewerId);
             var secondInterviewer = this.DbContext.Users.Find(model.SecondInterviewerId);
-
-            var test = await this.DbContext.Tests.FirstOrDefaultAsync(t => t.Name == "OnSiteTest");
-
+            
             var interview = new Interview()
             {
                 ApplicantId = model.ApplicantId,
@@ -73,15 +81,31 @@
             await this.DbContext.Interviews.AddAsync(interview);
             await this.DbContext.SaveChangesAsync();
         }
+        
+        public async Task<AdminOnlineInterviewDetailsViewModel> OnlineDetails(int id)
+        {
+            var interview = await this.DbContext
+                .Interviews
+                .Include(f => f.Applicant)
+                .Include(i => i.Test)
+                .FirstOrDefaultAsync(i => i.Id == id);
 
-        public async Task<AdminInterviewDetailsViewModel> Details(int id)
+            var result = await this.DbContext.Results.FirstOrDefaultAsync(i => i.Id == interview.Id);
+
+            interview.Result = result ?? new Result();
+
+            interview.Result.Id = interview.Id;
+
+            return this.Mapper.Map<AdminOnlineInterviewDetailsViewModel>(interview);
+        }
+
+        public async Task<AdminInPersonInterviewDetailsViewModel> InPersonDetails(int id)
         {
             var interview = await this.DbContext
                 .Interviews
                 .Include(i => i.Interviewers)
                 .Include(i => i.Feedbacks)
                 .Include(f => f.Applicant)
-                .Include(i => i.Test)
                 .FirstOrDefaultAsync(i => i.Id == id);
 
             foreach (var interviewer in interview.Interviewers)
@@ -91,19 +115,26 @@
                 interviewer.Interviewer = interviewerUser;
             }
 
-            var result = await this.DbContext.Results.FirstOrDefaultAsync(i => i.Id == interview.Id);
-
-            interview.Result = result ?? new Result();
-
-            interview.Result.Id = interview.Id;
-
-            return this.Mapper.Map<AdminInterviewDetailsViewModel>(interview);
+            return this.Mapper.Map<AdminInPersonInterviewDetailsViewModel>(interview);
         }
 
-        public Task SetTestResult(AdminSetApplicantTestResult model)
+        public async Task SetTestResult(AdminSetApplicantTestResult model)
         {
-            // TODO
-            throw new NotImplementedException();
+            var interview = await this.DbContext.Interviews.FindAsync(model.InterviewId);
+
+            interview.Result = new Result()
+            {
+                InterviewId = interview.Id
+            };
+
+            if (interview.ApplicantId != model.ApplicantId)
+            {
+               throw  new InvalidOperationException("Invalid Identity details.");
+            }
+
+            interview.Result.ResultUrl = model.ResultUrl;
+
+            await this.DbContext.SaveChangesAsync();
         }
     }
 }

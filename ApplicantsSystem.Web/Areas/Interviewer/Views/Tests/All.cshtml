@@ -25,19 +25,6 @@
         </tr>
     </thead>
     <tbody>
-        @foreach (var test in Model)
-        {
-            <tr>
-                <td>
-                    @test.Name
-                </td>
-                <td>
-                    <a href="@test.Url">@test.Url</a>
-                </td>
-                <td>
-                    <a class="btn btn-danger" asp-area="Interviewer" asp-controller="Tests" asp-action="Remove" asp-route-id="@test.Id">Remove</a>
-                </td>
-            </tr>
-        }
+        @Html.DisplayForModel()
     </tbody>
 </table>

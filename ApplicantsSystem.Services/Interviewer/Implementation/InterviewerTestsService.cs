@@ -4,6 +4,7 @@
     using Common.Interviewer.BindingModels;
     using Common.Interviewer.ViewModels;
     using Data;
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
     using Models;
     using System.Collections.Generic;
@@ -29,6 +30,20 @@
 
             await this.DbContext.Tests.AddAsync(test);
             await this.DbContext.SaveChangesAsync();
+        }
+
+        public List<SelectListItem> GetTests()
+        {
+            var tests = this.DbContext
+                .Tests
+                .Select(t => new SelectListItem
+                {
+                    Text = t.Name,
+                    Value = t.Id.ToString()
+                })
+                .ToList();
+
+            return tests;
         }
 
         public async Task Remove(int id)
