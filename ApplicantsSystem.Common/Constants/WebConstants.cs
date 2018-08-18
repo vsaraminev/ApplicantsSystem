@@ -36,6 +36,7 @@
         public const string EmailMessage = "To open your test <a href='{0}'>click here</a>.";
 
         public const string InInterviewStatus = "InInterview";
+        public const int InInterviewStatusId = 1;
         public const string HiredStatus = "Hired";
         public const string RejectedStatus = "Rejected";
     }

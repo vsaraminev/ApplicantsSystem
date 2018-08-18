@@ -6,7 +6,6 @@
     using Data;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using Microsoft.EntityFrameworkCore;
-    using Microsoft.Extensions.Caching.Memory;
     using Models;
     using System;
     using System.Collections.Generic;
@@ -16,14 +15,13 @@
 
     public class AdminApplicantService : BaseService, IAdminApplicantService
     {
-        private const string AppCacheKey = "app-cache-key";
+        //private const string AppCacheKey = "app-cache-key";
 
-        private readonly IMemoryCache cache;
+        //private readonly IMemoryCache cache;
 
-        public AdminApplicantService(ApplicantsSystemDbContext db, IMapper mapper, IMemoryCache cache)
+        public AdminApplicantService(ApplicantsSystemDbContext db, IMapper mapper)
             : base(db, mapper)
-        {
-            this.cache = cache;
+        {            
         }
 
         public IEnumerable<AdminApplicantListingViewModel> ApplicantsAll()
@@ -39,17 +37,22 @@
 
         public async Task Create(CreateApplicantBindingModel model)
         {
+            if (model == null)
+            {
+                throw new ArgumentException("The applicant to create must have a value.");
+            }
+
             var applicant = this.Mapper.Map<Applicant>(model);
+            
+            var statusId = InInterviewStatusId;
 
-            var status = await this.DbContext.Statuses.FirstOrDefaultAsync(s => s.Name == InInterviewStatus);
-
-            applicant.CurrentStatus = status.Id;
+            applicant.CurrentStatus = statusId;
 
             applicant.Statuses = new List<AplicantStatus>()
             {
                 new AplicantStatus
                 {
-                    StatusId = status.Id,
+                    StatusId = statusId,
                     Time = DateTime.UtcNow
                 }
             };
@@ -146,17 +149,6 @@
                 .ToList();
 
             return applicants;
-        }
-
-        public async Task Remove(int id)
-        {
-            var applicant = await this.DbContext
-                .Applicants
-                .FindAsync(id);
-
-            this.DbContext.Applicants.Remove(applicant);
-
-            await this.DbContext.SaveChangesAsync();
         }
     }
 }

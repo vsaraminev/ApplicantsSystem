@@ -2,10 +2,8 @@
 {
     using Common.Admin.BindingModels;
     using Common.Admin.ViewModels;
-    using Data;
     using Infrastructure;
     using Microsoft.AspNetCore.Mvc;
-    using Microsoft.Extensions.Caching.Memory;
     using Services.Admin;
     using System.Linq;
     using System.Threading.Tasks;
@@ -13,12 +11,10 @@
 
     public class ApplicantsController : BaseAdminController
     {
-        private readonly ApplicantsSystemDbContext db;
         private readonly IAdminApplicantService applicants;
 
-        public ApplicantsController(ApplicantsSystemDbContext db, IAdminApplicantService applicants, IMemoryCache cache)
+        public ApplicantsController(IAdminApplicantService applicants)
         {
-            this.db = db;
             this.applicants = applicants;
         }
 
@@ -26,26 +22,7 @@
         {
             var allApplicants = this.applicants.ApplicantsAll();
 
-            var inIntreviewStatusId = this.db.Statuses.FirstOrDefault(s => s.Name == InInterviewStatus).Id;
-
-            var model = allApplicants.Where(a => a.CurrentStatus == inIntreviewStatusId).ToList();
-
-            var statuses = this.applicants.GetStatuses();
-
-            return View(new AdminApplicantIndexViewModel
-            {
-                Applicants = model,
-                Statuses = statuses
-            });
-        }
-
-        public IActionResult HiredOrRejected()
-        {
-            var allApplicants = this.applicants.ApplicantsAll();
-
-            var inIntreviewStatusId = this.db.Statuses.FirstOrDefault(s => s.Name == InInterviewStatus).Id;
-
-            var model = allApplicants.Where(a => a.CurrentStatus != inIntreviewStatusId).ToList();
+            var model = allApplicants.Where(a => a.CurrentStatus == InInterviewStatusId).ToList();
 
             var statuses = this.applicants.GetStatuses();
 
@@ -93,7 +70,7 @@
             }
 
             await this.applicants.ChangeStatus(model);
-            
+
             TempData.AddSuccessMessage(ChangeApplicantStatusMessage);
 
             return RedirectToAction(nameof(Index));
@@ -113,13 +90,19 @@
             return View(interviews);
         }
 
-        public async Task<IActionResult> Remove(int id)
+        public IActionResult HiredOrRejected()
         {
-            await this.applicants.Remove(id);
+            var allApplicants = this.applicants.ApplicantsAll();
 
-            TempData.AddSuccessMessage(RemoveApplicantMessage);
+            var model = allApplicants.Where(a => a.CurrentStatus != InInterviewStatusId).ToList();
 
-            return this.RedirectToAction(nameof(Index));
+            var statuses = this.applicants.GetStatuses();
+
+            return View(new AdminApplicantIndexViewModel
+            {
+                Applicants = model,
+                Statuses = statuses
+            });
         }
     }
 }

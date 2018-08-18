@@ -9,9 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApplicantsSystem.Data", "Ap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApplicantsSystem.Models", "ApplicantsSystem.Models\ApplicantsSystem.Models.csproj", "{DF6945CF-53FD-4DC1-ABC4-D948B9353709}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicantsSystem.Common", "ApplicantsSystem.Common\ApplicantsSystem.Common.csproj", "{B49E232C-3042-44E7-A7D5-48B7A1A88242}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApplicantsSystem.Common", "ApplicantsSystem.Common\ApplicantsSystem.Common.csproj", "{B49E232C-3042-44E7-A7D5-48B7A1A88242}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicantsSystem.Services", "ApplicantsSystem.Services\ApplicantsSystem.Services.csproj", "{92A60A10-D3F2-4C7E-98C0-091C5C29F0C1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApplicantsSystem.Services", "ApplicantsSystem.Services\ApplicantsSystem.Services.csproj", "{92A60A10-D3F2-4C7E-98C0-091C5C29F0C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicantsSystem.Tests", "ApplicantsSystem.Tests\ApplicantsSystem.Tests.csproj", "{240AF6F8-940F-4489-BA5D-ED5EADE0D645}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{92A60A10-D3F2-4C7E-98C0-091C5C29F0C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{92A60A10-D3F2-4C7E-98C0-091C5C29F0C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{92A60A10-D3F2-4C7E-98C0-091C5C29F0C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{240AF6F8-940F-4489-BA5D-ED5EADE0D645}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{240AF6F8-940F-4489-BA5D-ED5EADE0D645}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{240AF6F8-940F-4489-BA5D-ED5EADE0D645}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{240AF6F8-940F-4489-BA5D-ED5EADE0D645}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
