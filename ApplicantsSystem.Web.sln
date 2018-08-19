@@ -13,7 +13,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApplicantsSystem.Common", "
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApplicantsSystem.Services", "ApplicantsSystem.Services\ApplicantsSystem.Services.csproj", "{92A60A10-D3F2-4C7E-98C0-091C5C29F0C1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApplicantsSystem.Tests", "ApplicantsSystem.Tests\ApplicantsSystem.Tests.csproj", "{240AF6F8-940F-4489-BA5D-ED5EADE0D645}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApplicantsSystem.Tests", "ApplicantsSystem.Tests\ApplicantsSystem.Tests.csproj", "{240AF6F8-940F-4489-BA5D-ED5EADE0D645}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

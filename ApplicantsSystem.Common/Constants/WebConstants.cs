@@ -13,6 +13,9 @@
         public const string AdminArea = "Admin";
         public const string InterviewerArea = "Interviewer";
 
+        public const string AdminPagesPolicy = "AdminPagesPolicy";
+        public const string InterviewerPagesPolicy = "InterviewerPagesPolicy";
+
         public const string Applicant = "Applicant";
         public const string Test = "Test";
 

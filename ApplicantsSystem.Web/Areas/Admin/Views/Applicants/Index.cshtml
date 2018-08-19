@@ -58,7 +58,8 @@
                     </form>
                 </td>
                 <td>
-                    <a class="btn btn-outline-primary" asp-area="Admin" asp-controller="Applicants" asp-action="Details" asp-route-id="@user.Id">Details</a>
+                    @*<a class="btn btn-outline-primary" asp-area="Admin" asp-controller="Applicants" asp-action="Details" asp-route-id="@user.Id">Details</a>*@
+                    <a class="btn btn-outline-primary" asp-page="/Pages/OtherDetails" asp-route-id="@user.Id">Details</a>
                 </td>
             </tr>
         }
