@@ -15,16 +15,12 @@
 
     public class AdminApplicantService : BaseService, IAdminApplicantService
     {
-        //private const string AppCacheKey = "app-cache-key";
-
-        //private readonly IMemoryCache cache;
-
         public AdminApplicantService(ApplicantsSystemDbContext db, IMapper mapper)
             : base(db, mapper)
-        {            
+        {
         }
 
-        public IEnumerable<AdminApplicantListingViewModel> ApplicantsAll()
+        public IEnumerable<AdminApplicantListingViewModel> All()
         {
             var applicants = this.DbContext
                 .Applicants
@@ -34,7 +30,7 @@
 
             return this.Mapper.Map<IEnumerable<AdminApplicantListingViewModel>>(applicants);
         }
-
+        
         public async Task Create(CreateApplicantBindingModel model)
         {
             if (model == null)
@@ -43,7 +39,7 @@
             }
 
             var applicant = this.Mapper.Map<Applicant>(model);
-            
+
             var statusId = InInterviewStatusId;
 
             applicant.CurrentStatus = statusId;

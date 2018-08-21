@@ -39,7 +39,6 @@
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            services.AddResponseCaching();
 
             services.AddDbContext<ApplicantsSystemDbContext>(options =>
                 options.UseSqlServer(
@@ -65,14 +64,14 @@
             services.AddAuthorization(options =>
             {
                 options.AddPolicy(AdminPagesPolicy, builder => builder.RequireRole(AdministratorRole).Build());
-                options.AddPolicy(InterviewerPagesPolicy, builder=>builder.RequireRole(InterviewerRole).Build());
             });
+
+            //services.AddMemoryCache();
 
             services.AddMvc()
                 .AddRazorPagesOptions(options =>
                 {
                     options.Conventions.AuthorizeAreaFolder(AdminArea, "/", AdminPagesPolicy);
-                    options.Conventions.AuthorizeAreaFolder(InterviewerArea, "/", InterviewerPagesPolicy);
                 })
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
@@ -98,9 +97,7 @@
             app.UseCookiePolicy();
 
             app.UseAuthentication();
-
-            app.UseResponseCaching();
-
+            
             app.UseMvc(routes =>
             {
                 routes.MapRoute(

@@ -169,6 +169,9 @@ namespace ApplicantsSystem.Data.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Description")
+                        .HasMaxLength(100);
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100);

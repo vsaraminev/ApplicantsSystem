@@ -11,6 +11,8 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using static ApplicantsSystem.Common.Constants.WebConstants;
+
     public class AdminInterviewService : BaseService, IAdminInterviewService
     {
         public AdminInterviewService(ApplicantsSystemDbContext dbContext, IMapper mapper)
@@ -18,15 +20,21 @@
         {
         }
 
-        public async Task<IEnumerable<AdminInterviewsListingViewModel>> All()
+        public async Task<IEnumerable<AdminInterviewsViewModel>> All(int page = 1)
         {
             var interviews = await this.DbContext
                 .Interviews
                 .Include(i => i.Applicant)
+                .OrderByDescending(i => i.Id)
+                .Skip((page - 1) * ListingInterviewsPageSize)
+                .Take(ListingInterviewsPageSize)
                 .ToListAsync();
 
-            return this.Mapper.Map<IEnumerable<AdminInterviewsListingViewModel>>(interviews);
+            return this.Mapper.Map<IEnumerable<AdminInterviewsViewModel>>(interviews);
         }
+
+        public async Task<int> TotalAsync()
+            => await this.DbContext.Interviews.CountAsync();
 
         public async Task CreateOnline(CreateOnlineInterviewBindingModel model)
         {
@@ -58,7 +66,7 @@
 
             var firstInterviewer = this.DbContext.Users.Find(model.FirstInterviewerId);
             var secondInterviewer = this.DbContext.Users.Find(model.SecondInterviewerId);
-            
+
             var interview = new Interview()
             {
                 ApplicantId = model.ApplicantId,
@@ -81,7 +89,7 @@
             await this.DbContext.Interviews.AddAsync(interview);
             await this.DbContext.SaveChangesAsync();
         }
-        
+
         public async Task<AdminOnlineInterviewDetailsViewModel> OnlineDetails(int id)
         {
             var interview = await this.DbContext
@@ -129,7 +137,7 @@
 
             if (interview.ApplicantId != model.ApplicantId)
             {
-               throw  new InvalidOperationException("Invalid Identity details.");
+                throw new InvalidOperationException("Invalid Identity details.");
             }
 
             interview.Result.ResultUrl = model.ResultUrl;

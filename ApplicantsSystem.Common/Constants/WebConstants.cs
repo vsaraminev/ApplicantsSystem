@@ -31,6 +31,8 @@
         public const string InterviewMessage = "The interview was created successfully!";
         //The interview with {0} {1} will be held between {2} and {3} o'clock!
         public const string CreateTestMessage = "{0} test was created successfully!";
+
+        public const string EditTestDescriptionMessage = "Description was edit successfully!";
         public const string RemoveTestMessage = "Test was removed successfully!";
         public const string SetTestResultMessage = "Result {0} is added successfully!";
         public const string LeaveFeedbackMessage = "You left feedback for {0} {1} successfully!";
@@ -42,5 +44,8 @@
         public const int InInterviewStatusId = 1;
         public const string HiredStatus = "Hired";
         public const string RejectedStatus = "Rejected";
+
+        public const int ListingApplicantsPageSize = 2;
+        public const int ListingInterviewsPageSize = 5;
     }
 }

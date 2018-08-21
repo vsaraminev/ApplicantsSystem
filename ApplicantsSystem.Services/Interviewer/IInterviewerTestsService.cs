@@ -12,6 +12,12 @@
 
         Task Create(InterviewerTestBindingModel model);
 
+        Task<InterviewerTestEditBindingModel> PrepareTestForEdit(int id);
+
+        Task Edit(int id, InterviewerTestEditBindingModel model);
+        
+        Task<InterviewerTestDetailsViewModel> Details(int id);
+
         List<SelectListItem> GetTests();
 
         Task Remove(int id);

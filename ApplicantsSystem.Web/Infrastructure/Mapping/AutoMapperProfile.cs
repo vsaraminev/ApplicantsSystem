@@ -19,15 +19,17 @@
             this.CreateMap<Interview, AdminInPersonInterviewDetailsViewModel>()
                 .ForMember(i => i.ApplicantName, cfg => cfg.MapFrom(a => a.Applicant.FirstName + " " + a.Applicant.LastName));
             this.CreateMap<User, AdminInterviewerListingViewModel>();
-            this.CreateMap<Interview, AdminInterviewsListingViewModel>()
+            this.CreateMap<Interview, AdminInterviewsViewModel>()
                 .ForMember(i => i.ApplicantName, cfg => cfg.MapFrom(a => a.Applicant.FirstName + " " + a.Applicant.LastName));
             this.CreateMap<InterviewInterviewer, InterviewerInterviewsListingModel>();
             this.CreateMap<Feedback, InterviewerFeedbackDetailsViewModel>();
+            this.CreateMap<Test, InterviewerTestDetailsViewModel>();
             this.CreateMap<CreateApplicantBindingModel, Applicant>();
             this.CreateMap<CreateInterviewerBindingModel, User>();
             this.CreateMap<InterviewerTestBindingModel, Test>();
             this.CreateMap<CreateInPersonInterviewBindingModel, Interview>();
             this.CreateMap<CreateOnlineInterviewBindingModel, Interview>();
+            this.CreateMap<InterviewerTestEditBindingModel, Test>();
         }
     }
 }

@@ -1,8 +1,8 @@
 ﻿namespace ApplicantsSystem.Models
 {
-    using Constants;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using static ApplicantsSystem.Models.Constants.DataConstants;
 
     public class Test
     {
@@ -14,9 +14,13 @@
         public int Id { get; set; }
 
         [Required]
-        [MinLength(DataConstants.TestNameMinLength)]
-        [MaxLength(DataConstants.TestNameMaxLength)]
+        [MinLength(TestNameMinLength)]
+        [MaxLength(TestNameMaxLength)]
         public string Name { get; set; }
+
+        [MinLength(TestDescriptionMinLength)]
+        [MaxLength(TestDescriptionMaxLength)]
+        public string Description { get; set; }
 
         [Url]
         public string Url { get; set; }

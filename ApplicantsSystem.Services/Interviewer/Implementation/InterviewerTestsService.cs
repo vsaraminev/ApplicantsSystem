@@ -32,6 +32,29 @@
             await this.DbContext.SaveChangesAsync();
         }
 
+        public async Task<InterviewerTestEditBindingModel> PrepareTestForEdit(int id)
+        {
+            var test = await this.DbContext.Tests.FindAsync(id);
+
+            return this.Mapper.Map<InterviewerTestEditBindingModel>(test);
+        }
+
+        public async Task Edit(int id, InterviewerTestEditBindingModel model)
+        {
+            var test = await this.DbContext.Tests.FindAsync(id);
+
+            test.Description = model.Description;
+
+            await this.DbContext.SaveChangesAsync();
+        }
+
+        public async Task<InterviewerTestDetailsViewModel> Details(int id)
+        {
+            var details = await this.DbContext.Tests.FindAsync(id);
+
+            return this.Mapper.Map<InterviewerTestDetailsViewModel>(details);
+        }
+
         public List<SelectListItem> GetTests()
         {
             var tests = this.DbContext

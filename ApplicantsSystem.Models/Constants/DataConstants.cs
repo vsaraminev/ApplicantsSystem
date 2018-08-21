@@ -10,6 +10,8 @@
 
         public const int TestNameMinLength = 3;
         public const int TestNameMaxLength = 100;
+        public const int TestDescriptionMinLength = 3;
+        public const int TestDescriptionMaxLength = 100;
 
         public const int FeedbackContextMinLength = 3;
         public const int FeedbackContextMaxLength = 200;

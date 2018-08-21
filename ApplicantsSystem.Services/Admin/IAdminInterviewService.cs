@@ -7,7 +7,7 @@
 
     public interface IAdminInterviewService
     {
-        Task<IEnumerable<AdminInterviewsListingViewModel>> All();
+        Task<IEnumerable<AdminInterviewsViewModel>> All(int page = 1);
 
         Task CreateOnline(CreateOnlineInterviewBindingModel model);
 
@@ -16,6 +16,8 @@
         Task<AdminOnlineInterviewDetailsViewModel> OnlineDetails(int id);
 
         Task<AdminInPersonInterviewDetailsViewModel> InPersonDetails(int id);
+
+        Task<int> TotalAsync();
 
         Task SetTestResult(AdminSetApplicantTestResult model);
     }

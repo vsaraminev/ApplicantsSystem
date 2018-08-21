@@ -1,4 +1,6 @@
-﻿namespace ApplicantsSystem.Web.Areas.Admin.Controllers
+﻿using ApplicantsSystem.Common.Admin.ViewModels;
+
+namespace ApplicantsSystem.Web.Areas.Admin.Controllers
 {
     using ApplicantsSystem.Models;
     using Common.Admin.BindingModels;
@@ -39,11 +41,16 @@
             this.emailSender = emailSender;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int page = 1)
         {
-            var model = await this.interviews.All();
+            var model = await this.interviews.All(page);
 
-            return View(model);
+            return View(new AdminInterviewsListingViewModel()
+            {
+                Interviews = model,
+                TotalInterviews = await this.interviews.TotalAsync(),
+                CurrentPage = page
+            });
         }
 
         public IActionResult CreateOnline()
@@ -112,12 +119,22 @@
         {
             var interview = await this.interviews.OnlineDetails(id);
 
+            if (interview == null)
+            {
+                return BadRequest();
+            }
+
             return View(interview);
         }
 
         public async Task<IActionResult> InPersonDetails(int id)
         {
             var interview = await this.interviews.InPersonDetails(id);
+
+            if (interview == null)
+            {
+                return BadRequest();
+            }
 
             return View(interview);
         }

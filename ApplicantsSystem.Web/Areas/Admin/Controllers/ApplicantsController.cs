@@ -5,6 +5,7 @@
     using Infrastructure;
     using Microsoft.AspNetCore.Mvc;
     using Services.Admin;
+    using System;
     using System.Linq;
     using System.Threading.Tasks;
     using static ApplicantsSystem.Common.Constants.WebConstants;
@@ -20,7 +21,7 @@
 
         public IActionResult Index()
         {
-            var allApplicants = this.applicants.ApplicantsAll();
+            var allApplicants = this.applicants.All();
 
             var model = allApplicants.Where(a => a.CurrentStatus == InInterviewStatusId).ToList();
 
@@ -58,6 +59,11 @@
         {
             var applicant = await this.applicants.Details(id);
 
+            if (applicant == null)
+            {
+                return BadRequest();
+            }
+
             return View(applicant);
         }
 
@@ -69,7 +75,19 @@
                 return RedirectToAction(nameof(Index));
             }
 
-            await this.applicants.ChangeStatus(model);
+            try
+            {
+                await this.applicants.ChangeStatus(model);
+            }
+            catch (Exception e)
+            {
+                if (e.InnerException is InvalidOperationException)
+                {
+                    return RedirectToAction(nameof(ChangeStatus));
+                }
+
+                throw e;
+            }
 
             TempData.AddSuccessMessage(ChangeApplicantStatusMessage);
 
@@ -90,9 +108,9 @@
             return View(interviews);
         }
 
-        public IActionResult HiredOrRejected()
+        public IActionResult HiredOrRejected(int page = 1)
         {
-            var allApplicants = this.applicants.ApplicantsAll();
+            var allApplicants = this.applicants.All();
 
             var model = allApplicants.Where(a => a.CurrentStatus != InInterviewStatusId).ToList();
 

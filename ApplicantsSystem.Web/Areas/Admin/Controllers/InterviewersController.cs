@@ -49,6 +49,11 @@
         {
             var interviewer = await this.interviewers.Details(id);
 
+            if (interviewer == null)
+            {
+                return BadRequest();
+            }
+
             return View(interviewer);
         }
 

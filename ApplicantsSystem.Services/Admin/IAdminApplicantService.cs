@@ -8,18 +8,18 @@
 
     public interface IAdminApplicantService
     {
-        IEnumerable<AdminApplicantListingViewModel> ApplicantsAll();
-
+        IEnumerable<AdminApplicantListingViewModel> All();
+        
         Task Create(CreateApplicantBindingModel model);
 
-        Task <AdminApplicantDetailsViewModel> Details(int id);
+        Task<AdminApplicantDetailsViewModel> Details(int id);
 
         Task<AdminApplicantInterviewsViewModel> GetInterviews(int id);
 
         Task<IEnumerable<AdminApplicantStatusesViewModel>> GetStatuses(int id);
-        
-        Task ChangeStatus(AdminChangeApplicantsStatus model);
 
+        Task ChangeStatus(AdminChangeApplicantsStatus model);
+        
         List<SelectListItem> GetStatuses();
 
         List<SelectListItem> GetApplicants();
