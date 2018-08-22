@@ -56,7 +56,7 @@
                 .AddDefaultTokenProviders();
 
             services.AddAutoMapper();
-
+            
             RegisterServiceLayer(services);
 
             services.AddSingleton<IEmailSender, SendGridEmailSender>();

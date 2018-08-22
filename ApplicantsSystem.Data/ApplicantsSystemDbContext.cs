@@ -4,6 +4,8 @@
     using Microsoft.EntityFrameworkCore;
     using Models;
 
+    using static ApplicantsSystem.Common.Constants.WebConstants;
+
     public class ApplicantsSystemDbContext : IdentityDbContext<User>
     {
         public DbSet<Applicant> Applicants { get; set; }
@@ -80,7 +82,14 @@
                 .HasOne(i => i.Result)
                 .WithOne(r => r.Interview)
                 .HasForeignKey<Result>(r => r.InterviewId);
-            
+
+            builder.Entity<Status>()
+                .HasData(
+                    new Status { Id = 1, Name = InInterviewStatus },
+                    new Status { Id = 2, Name = HiredStatus },
+                    new Status { Id = 3, Name = RejectedStatus }
+                );
+
             base.OnModelCreating(builder);
         }
     }

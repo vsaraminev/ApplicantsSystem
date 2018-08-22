@@ -45,7 +45,8 @@
         public const string HiredStatus = "Hired";
         public const string RejectedStatus = "Rejected";
 
-        public const int ListingApplicantsPageSize = 2;
+        public const int ListingTestsPageSize = 2;
         public const int ListingInterviewsPageSize = 5;
+        public const int ListingApplicantsPageSize = 2;
     }
 }

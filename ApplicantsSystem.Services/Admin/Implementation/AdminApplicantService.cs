@@ -30,7 +30,7 @@
 
             return this.Mapper.Map<IEnumerable<AdminApplicantListingViewModel>>(applicants);
         }
-        
+
         public async Task Create(CreateApplicantBindingModel model)
         {
             if (model == null)
@@ -93,7 +93,7 @@
 
             return statuses;
         }
-
+        
         public async Task ChangeStatus(AdminChangeApplicantsStatus model)
         {
             var applicant = await this.DbContext.Applicants.FirstOrDefaultAsync(a => a.Id == model.ApplicantId);

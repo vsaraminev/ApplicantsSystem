@@ -32,6 +32,11 @@ body {
     pointer-events: none
 }
 
+.home-jumbotron {
+    margin-top: 80px;
+    background: none;
+}
+
 /* Hide/rearrange for smaller screens */
 @media screen and (max-width: 767px) {
     /* Hide captions */
@@ -39,3 +44,4 @@ body {
         display: none;
     }
 }
+

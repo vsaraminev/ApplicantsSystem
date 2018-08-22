@@ -11,6 +11,8 @@
     using System.Linq;
     using System.Threading.Tasks;
 
+    using static ApplicantsSystem.Common.Constants.WebConstants;
+
     public class InterviewerTestsService : BaseService, IInterviewerTestsService
     {
         public InterviewerTestsService(ApplicantsSystemDbContext dbContext, IMapper mapper)
@@ -18,11 +20,21 @@
         {
         }
 
-        public IEnumerable<InterviewerTestListingModel> All()
+        public async Task<IEnumerable<InterviewerTestViewModel>> All(int page = 1)
         {
-            var tests = this.DbContext.Tests.Include(t => t.Interviews).ToList();
-            return this.Mapper.Map<IEnumerable<InterviewerTestListingModel>>(tests);
+            var tests = await this.DbContext
+                .Tests
+                .Include(t => t.Interviews)
+                .OrderByDescending(i => i.Id)
+                .Skip((page - 1) * ListingTestsPageSize)
+                .Take(ListingTestsPageSize)
+                .ToListAsync();
+
+            return this.Mapper.Map<IEnumerable<InterviewerTestViewModel>>(tests);
         }
+
+        public async Task<int> TotalAsync()
+            => await this.DbContext.Tests.CountAsync();
 
         public async Task Create(InterviewerTestBindingModel model)
         {
@@ -53,6 +65,13 @@
             var details = await this.DbContext.Tests.FindAsync(id);
 
             return this.Mapper.Map<InterviewerTestDetailsViewModel>(details);
+        }
+
+        public InterviewerTestViewModel GetByIdAsync(int id)
+        {
+           var test = this.DbContext.Tests.Find(id);
+
+            return this.Mapper.Map<InterviewerTestViewModel>(test);
         }
 
         public List<SelectListItem> GetTests()

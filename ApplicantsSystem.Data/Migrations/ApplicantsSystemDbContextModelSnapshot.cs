@@ -161,6 +161,12 @@ namespace ApplicantsSystem.Data.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Statuses");
+
+                    b.HasData(
+                        new { Id = 1, Name = "InInterview" },
+                        new { Id = 2, Name = "Hired" },
+                        new { Id = 3, Name = "Rejected" }
+                    );
                 });
 
             modelBuilder.Entity("ApplicantsSystem.Models.Test", b =>

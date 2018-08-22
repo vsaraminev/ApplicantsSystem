@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
     </environment>
 </head>
-<body style="background-color:black">
+<body style="background-image: url(https://www.trivaeo.com/images/Applications/eHuman_Resources/eHuman_Resources_Management_Hero.jpg); background-size: 100%">
     <nav class="navbar navbar-expand-lg  navbar-dark bg-dark">
         <a class="navbar-brand" href="/">Applicants System</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -26,26 +26,26 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             @if (User.IsInRole(WebConstants.AdministratorRole))
             {
-            <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                    <a class="nav-link" asp-area="Admin" asp-controller="Applicants" asp-action="Index">Applicants</a>
-                </li>
-                @*<li class="nav-item active">
-                    <a class="nav-link" asp-area="Admin" asp-controller="Interviewers" asp-action="All">Interviewers</a>
-                </li>*@
-                <li class="nav-item active">
-                    <a class="nav-link" asp-area="Admin" asp-page="/AllInterviewers">Interviewers</a>
-                </li>
-                <li class="nav-item active">
-                    <a class="nav-link" asp-area="Admin" asp-controller="Interview" asp-action="Index">Interviews</a>
-                </li>
-                @*<li class="nav-item active">
-            <a class="nav-link" asp-area="Interviewer" asp-controller="Tests" asp-action="All">Tests</a>
-        </li>*@
-                <li class="nav-item active">
-                    <a class="nav-link" asp-area="Admin" asp-page="/AllTests">Tests</a>
-                </li>
-            </ul>
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" asp-area="Admin" asp-controller="Applicants" asp-action="Index">Applicants</a>
+                    </li>
+                    @*<li class="nav-item active">
+                            <a class="nav-link" asp-area="Admin" asp-controller="Interviewers" asp-action="All">Interviewers</a>
+                        </li>*@
+                    <li class="nav-item active">
+                        <a class="nav-link" asp-area="Admin" asp-page="/AllInterviewers">Interviewers</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" asp-area="Admin" asp-controller="Interview" asp-action="Index">Interviews</a>
+                    </li>
+                    @*<li class="nav-item active">
+                            <a class="nav-link" asp-area="Interviewer" asp-controller="Tests" asp-action="All">Tests</a>
+                        </li>*@
+                    <li class="nav-item active">
+                        <a class="nav-link" asp-area="Admin" asp-page="/AllTests">Tests</a>
+                    </li>
+                </ul>
             }
             @if (User.IsInRole(WebConstants.InterviewerRole))
             {

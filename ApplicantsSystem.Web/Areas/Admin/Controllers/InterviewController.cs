@@ -74,15 +74,24 @@ namespace ApplicantsSystem.Web.Areas.Admin.Controllers
 
             await this.interviews.CreateOnline(model);
 
-            //var testLink = model.Test.Url;
+            var applicant = this.applicants.All().FirstOrDefault(a => a.Id == model.ApplicantId);
 
-            //var subject = EmailSubject;
+            var test = this.tests.GetByIdAsync(model.TestId);
 
-            //var message = String.Format(EmailMessage, testLink);
+            if (applicant == null || test == null)
+            {
+                return BadRequest();
+            }
 
-            //await emailSender.SendEmailAsync(user.Email, subject, message);
+            var testLink = test.Url;
 
-            TempData.AddSuccessMessage(String.Format(SendTestMessage, model.Test.Name, model.Applicant.Email));
+            var subject = EmailSubject;
+
+            var message = String.Format(EmailMessage, testLink);
+            
+            await emailSender.SendEmailAsync(applicant.Email, subject, message);
+
+            TempData.AddSuccessMessage(String.Format(SendTestMessage, test.Name, applicant.Email));
 
             return RedirectToAction(nameof(Index));
         }

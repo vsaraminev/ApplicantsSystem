@@ -1,4 +1,6 @@
-﻿namespace ApplicantsSystem.Services.Interviewer
+﻿using ApplicantsSystem.Models;
+
+namespace ApplicantsSystem.Services.Interviewer
 {
     using Common.Interviewer.BindingModels;
     using Common.Interviewer.ViewModels;
@@ -8,7 +10,7 @@
 
     public interface IInterviewerTestsService
     {
-        IEnumerable<InterviewerTestListingModel> All();
+        Task<IEnumerable<InterviewerTestViewModel>> All(int page = 1);
 
         Task Create(InterviewerTestBindingModel model);
 
@@ -17,6 +19,10 @@
         Task Edit(int id, InterviewerTestEditBindingModel model);
         
         Task<InterviewerTestDetailsViewModel> Details(int id);
+
+        Task<int> TotalAsync();
+
+        InterviewerTestViewModel GetByIdAsync(int id);
 
         List<SelectListItem> GetTests();
 

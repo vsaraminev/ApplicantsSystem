@@ -9,7 +9,7 @@
     {
         public async Task SendEmailAsync(string email, string subject, string htmlMessage)
         {
-            var apiKey = "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";
+            var apiKey = "";
             var client = new SendGridClient(apiKey);
             var from = new EmailAddress("admin@mysite.com", "Applicants System Admin");
             var to = new EmailAddress(email, email);

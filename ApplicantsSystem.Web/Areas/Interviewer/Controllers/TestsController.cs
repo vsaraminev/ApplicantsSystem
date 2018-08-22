@@ -1,4 +1,6 @@
-﻿namespace ApplicantsSystem.Web.Areas.Interviewer.Controllers
+﻿using ApplicantsSystem.Common.Interviewer.ViewModels;
+
+namespace ApplicantsSystem.Web.Areas.Interviewer.Controllers
 {
     using Common.Interviewer.BindingModels;
     using Infrastructure;
@@ -17,11 +19,16 @@
             this.tests = tests;
         }
 
-        public IActionResult All()
+        public async Task<IActionResult> All(int page = 1)
         {
-            var allTests = this.tests.All();
+            var allTests = await this.tests.All(page);
 
-            return View(allTests);
+            return View(new InterviewerTestListingViewModel
+            {
+                Tests = allTests,
+                CurrentPage = page,
+                TotalTests = await this.tests.TotalAsync()
+            });
         }
 
         public IActionResult Create()
@@ -60,7 +67,7 @@
         {
             var model = await this.tests.PrepareTestForEdit(id);
 
-            if (model==null)
+            if (model == null)
             {
                 return BadRequest();
             }
@@ -79,7 +86,7 @@
             await this.tests.Edit(id, model);
 
             TempData.AddSuccessMessage(EditTestDescriptionMessage);
-            
+
             return RedirectToAction(nameof(All));
         }
 

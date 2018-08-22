@@ -1,4 +1,6 @@
-﻿namespace ApplicantsSystem.Services.Admin
+﻿using ApplicantsSystem.Models;
+
+namespace ApplicantsSystem.Services.Admin
 {
     using Common.Admin.BindingModels;
     using Common.Admin.ViewModels;
@@ -17,7 +19,7 @@
         Task<AdminApplicantInterviewsViewModel> GetInterviews(int id);
 
         Task<IEnumerable<AdminApplicantStatusesViewModel>> GetStatuses(int id);
-
+        
         Task ChangeStatus(AdminChangeApplicantsStatus model);
         
         List<SelectListItem> GetStatuses();
