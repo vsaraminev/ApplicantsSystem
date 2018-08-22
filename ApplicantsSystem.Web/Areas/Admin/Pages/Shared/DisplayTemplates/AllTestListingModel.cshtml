@@ -1,0 +1,17 @@
+﻿@using ApplicantsSystem.Common.Interviewer.ViewModels
+@model AllTestListingModel
+
+<tr>
+    <td>
+        @Model.Name
+    </td>
+    <td>
+        <a class="btn btn-outline-primary" asp-area="Interviewer" asp-controller="Tests" asp-action="Details" asp-route-id="@Model.Id">Details</a>
+    </td>
+    <td>
+        <a class="btn btn-outline-warning" asp-area="Interviewer" asp-controller="Tests" asp-action="Edit" asp-route-id="@Model.Id">Edit Description</a>
+    </td>
+    <td>
+        <a class="btn btn-outline-danger" asp-area="Interviewer" asp-controller="Tests" asp-action="Remove" asp-route-id="@Model.Id">Remove</a>
+    </td>
+</tr>

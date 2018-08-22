@@ -1,0 +1,34 @@
+﻿@model InterviewerTestDetailsViewModel
+<br />
+<h2>@ViewData["Title"]</h2>
+<br />
+<table class="table table-bordered  table-hover text-center">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Test Name
+            </th>
+            <th>
+                Test Url
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @Model.Id
+            </td>
+            <td>
+                @Model.Name
+            </td>
+            <td>
+                <a href="@Model.Url">@Model.Url</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<a asp-area="Interviewer"  asp-controller="Tests" asp-action="All" class="btn btn-outline-primary">Back</a>

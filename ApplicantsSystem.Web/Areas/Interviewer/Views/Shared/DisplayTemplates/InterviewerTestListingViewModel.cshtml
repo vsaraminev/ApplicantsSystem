@@ -1,0 +1,20 @@
+﻿@model InterviewerTestListingViewModel
+
+
+@foreach (var test in Model.Tests)
+{
+    <tr>
+        <td>
+            @test.Name
+        </td>
+        <td>
+            <a class="btn btn-outline-primary" asp-area="Interviewer" asp-controller="Tests" asp-action="Details" asp-route-id="@test.Id">Details</a>
+        </td>
+        <td>
+            <a class="btn btn-outline-warning" asp-area="Interviewer" asp-controller="Tests" asp-action="Edit" asp-route-id="@test.Id">Edit Description</a>
+        </td>
+        <td>
+            <a class="btn btn-outline-danger" asp-area="Interviewer" asp-controller="Tests" asp-action="Remove" asp-route-id="@test.Id">Remove</a>
+        </td>
+    </tr>
+}

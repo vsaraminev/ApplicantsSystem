@@ -1,0 +1,32 @@
+﻿@model InterviewerFeedbackBindingModel
+@{
+    ViewData["Title"] = "Leave Feedback";
+}
+<br/>
+<h2>@ViewData["Title"]</h2>
+
+<script src="https://cloud.tinymce.com/stable/tinymce.min.js"></script>
+<script>tinymce.init({ selector:'#Context' });</script>
+
+<div class="row">
+    <div class="col-md-6">
+        <form method="post">
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Context"></label>
+                <textarea asp-for="Context" rows="10" class="form-control"></textarea>
+                <span asp-validation-for="Context" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Score"></label>
+                <input asp-for="Score" type="number" min="1" max="6" class="form-control" />
+                <span asp-validation-for="Score" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-default">Leave Feedback</button>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

@@ -1,0 +1,24 @@
+﻿@model InterviewerFeedbackDetailsViewModel
+@{
+    ViewData["Title"] = $"Interview Details for {Model.Interview.Applicant.FirstName} {Model.Interview.Applicant.LastName}";
+}
+
+<br />
+<h2>@ViewData["Title"]</h2>
+<br />
+
+<table class="table table-bordered  table-hover text-center">
+    <tr>
+        <th>Name:</th>
+        <td>@Model.Interview.Applicant.FirstName &nbsp; @Model.Interview.Applicant.LastName</td>
+    </tr>
+    <tr>
+        <th>Context: </th>
+        <td>@Html.Raw(Model.Context)</td>
+    </tr>
+    <tr>
+        <th>Score:</th>
+        <td>@Model.Score</td>
+    </tr>
+</table>
+

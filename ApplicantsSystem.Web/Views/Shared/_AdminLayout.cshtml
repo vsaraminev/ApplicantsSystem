@@ -1,0 +1,97 @@
+﻿@using ApplicantsSystem.Common.Constants
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Applicants System</title>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.css" />
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/css/bootstrap.min.css"
+              asp-fallback-href="~/lib/bootstrap/dist/css/bootstrap.min.css"
+              asp-fallback-test-class="sr-only" asp-fallback-test-property="position" asp-fallback-test-value="absolute" />
+        <link rel="stylesheet" href="~/css/site.min.css" asp-append-version="true" />
+    </environment>
+</head>
+<body style="background-image: url(https://www.trivaeo.com/images/Applications/eHuman_Resources/eHuman_Resources_Management_Hero.jpg); background-size: 100%">
+    <nav class="navbar navbar-expand-lg  navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">Applicants System</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            @if (User.IsInRole(WebConstants.AdministratorRole))
+            {
+                <ul class="navbar-nav mr-auto">
+                    <li class="nav-item active">
+                        <a class="nav-link" asp-area="Admin" asp-controller="Applicants" asp-action="Index">Applicants</a>
+                    </li>
+                    @*<li class="nav-item active">
+                            <a class="nav-link" asp-area="Admin" asp-controller="Interviewers" asp-action="All">Interviewers</a>
+                        </li>*@
+                    <li class="nav-item active">
+                        <a class="nav-link" asp-area="Admin" asp-page="/AllInterviewers">Interviewers</a>
+                    </li>
+                    <li class="nav-item active">
+                        <a class="nav-link" asp-area="Admin" asp-controller="Interview" asp-action="Index">Interviews</a>
+                    </li>
+                    @*<li class="nav-item active">
+                            <a class="nav-link" asp-area="Interviewer" asp-controller="Tests" asp-action="All">Tests</a>
+                        </li>*@
+                    <li class="nav-item active">
+                        <a class="nav-link" asp-area="Admin" asp-page="/AllTests">Tests</a>
+                    </li>
+                </ul>
+            }
+            <partial name="_LoginPartial" />
+        </div>
+    </nav>
+
+    @if (TempData.ContainsKey(WebConstants.TempDataSuccessMessageKey))
+    {
+        <div class=" col-8 ml-auto mr-auto text-center alert alert-success alert-dismissible fade show" role="alert">
+            @TempData[WebConstants.TempDataSuccessMessageKey]
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+    }
+
+    <partial name="_CookieConsentPartial" />
+
+    <div style="color: white" class="container body-content">
+        @RenderBody()
+        <hr style="background-color: white" />
+        <footer style="color: white">
+            <p>&copy; 2018 - Applicants System</p>
+        </footer>
+    </div>
+
+    <environment include="Development">
+        <script src="~/lib/jquery/dist/jquery.js"></script>
+        <script src="~/lib/bootstrap/dist/js/bootstrap.js"></script>
+        <script src="~/js/site.js" asp-append-version="true"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="https://ajax.aspnetcdn.com/ajax/jquery/jquery-3.3.1.min.js"
+                asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+                asp-fallback-test="window.jQuery"
+                crossorigin="anonymous"
+                integrity="sha384-tsQFqpEReu7ZLhBV2VZlAu7zcOV+rXbYlF2cqB8txI/8aZajjp4Bqd+V6D5IgvKT">
+        </script>
+        <script src="https://ajax.aspnetcdn.com/ajax/bootstrap/3.3.7/bootstrap.min.js"
+                asp-fallback-src="~/lib/bootstrap/dist/js/bootstrap.min.js"
+                asp-fallback-test="window.jQuery && window.jQuery.fn && window.jQuery.fn.modal"
+                crossorigin="anonymous"
+                integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa">
+        </script>
+        <script src="~/js/site.min.js" asp-append-version="true"></script>
+    </environment>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>

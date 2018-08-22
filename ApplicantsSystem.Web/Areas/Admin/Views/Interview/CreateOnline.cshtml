@@ -1,0 +1,36 @@
+﻿@model CreateOnlineInterviewBindingModel
+@{
+    ViewData["Title"] = "CreateOutSide Interview";
+}
+<br />
+<h2>@ViewData["Title"]</h2>
+<br />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <hr />
+            <div asp-validation-summary="All" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="ApplicantId"></label>
+                <select asp-for="ApplicantId" asp-items="@Model.Applicants" class="form-control">
+                    <option selected="selected" disabled="disabled">Please select applicant</option>
+                </select>
+                <span asp-validation-for="ApplicantId" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="TestId"></label>
+                <select asp-for="TestId" asp-items="@Model.Tests" class="form-control">
+                    <option selected="selected" disabled="disabled">Please select test</option>
+                </select>
+                <span asp-validation-for="TestId" class="text-danger"></span>
+            </div>
+            <button type="submit" class="btn btn-success">Send Test</button>
+            <a style="margin: 20px" asp-controller="Interview" asp-action="Index" class="btn btn-outline-primary">Back</a>
+        </form>
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+

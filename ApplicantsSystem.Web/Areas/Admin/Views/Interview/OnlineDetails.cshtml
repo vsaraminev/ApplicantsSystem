@@ -1,0 +1,35 @@
+﻿@model AdminOnlineInterviewDetailsViewModel
+@{
+    ViewData["Title"] = $"Online Interview Details for {Model.ApplicantName}";
+}
+<br/>
+<h2>@ViewData["Title"]</h2>
+<br/>
+<table class="table table-bordered  table-hover text-center">
+    <thead>
+        <tr>
+            <th>
+                Applicant FullName
+            </th>
+            <th>
+                Send Date
+            </th>
+            <th>
+                Test Name
+            </th>
+            <th>
+                Test Url
+            </th>
+            <th>
+                Result Url
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @Html.DisplayForModel()
+    </tbody>
+</table>
+
+<a asp-controller="Interview" asp-action="Index" class="btn btn-outline-primary">Back</a>
+
+

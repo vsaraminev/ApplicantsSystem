@@ -1,0 +1,105 @@
+﻿@model AdminInPersonInterviewDetailsViewModel
+@{
+    ViewData["Title"] = $"InPerson Interview Details for {Model.ApplicantName}";
+}
+@{
+    var firstInterviewer = Model.Interviewers.First();
+}
+<br />
+<h2>@ViewData["Title"]</h2>
+<br />
+<table class="table table-bordered  table-hover">
+
+    <tr>
+        <th>
+            First Interviewer Full Name:
+        </th>
+        <td>
+            @firstInterviewer.Interviewer.FirstName &nbsp; @firstInterviewer.Interviewer.LastName
+        </td>
+    </tr>
+    <tr>
+        <th>
+            &emsp; Feedback:
+        </th>
+        <td>
+            @if (firstInterviewer.Interviewer.Feedbacks.Count != 0)
+            {
+                @Html.Raw(Model.Feedbacks.First().Context)
+            }
+            else
+            {
+                <span style="color: red">Awaiting interviewer to leave feedback.</span>
+            }
+        </td>
+    </tr>
+    <tr>
+        <th>
+            &emsp; Score:
+        </th>
+        <td>
+            @if (Model.Feedbacks.Count != 0)
+            {
+                @Html.Raw(Model.Feedbacks.First().Score)
+            }
+            else
+            {
+                <span style="color: red">Awaiting interviewer to leave feedback.</span>
+            }
+        </td>
+    </tr>
+    @if (Model.Interviewers.Count == 2)
+    {
+        <tr>
+            <th>
+                Second Interviewer Full Name:
+            </th>
+            <td>
+                @Model.Interviewers.Last().Interviewer.FirstName &nbsp; @Model.Interviewers.Last().Interviewer.LastName
+            </td>
+        </tr>
+        <tr>
+            <th>
+                &emsp; Feedback:
+            </th>
+            <td>
+                @if (firstInterviewer.Interviewer.Feedbacks.Count != 0)
+                {
+                    @Html.Raw(Model.Feedbacks.Last().Context)
+                }
+                else
+                {
+                    <span style="color: red">Awaiting interviewer to leave feedback.</span>
+                }
+            </td>
+        </tr>
+        <tr>
+            <th>
+                &emsp; Score:
+            </th>
+            <td>
+                @if (Model.Feedbacks.Count != 0)
+                {
+                    @Html.Raw(Model.Feedbacks.Last().Score)
+                }
+                else
+                {
+                    <span style="color: red">Awaiting interviewer to leave feedback.</span>
+                }
+            </td>
+        </tr>
+    }
+    else
+    {
+        <tr>
+            <th>
+                Second Interviewer Full Name:
+            </th>
+            <td>
+                <span style="color: red">There is no second interviewer.</span>
+            </td>
+        </tr>
+    }
+</table>
+
+<a asp-controller="Interview" asp-action="Index" class="btn btn-outline-primary">Back</a>

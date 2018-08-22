@@ -1,0 +1,23 @@
+﻿@model AdminInterviewsListingViewModel
+
+@foreach (var interview in Model.Interviews)
+{
+    <tr>
+        <td>
+            @interview.ApplicantName
+        </td>
+        <td>
+            @(interview.TestId != 0 ? "Online Interview" : "In-Person Interview")
+        </td>
+        <td>
+            @if (interview.TestId > 0)
+            {
+                <a class="btn btn-outline-primary" asp-area="Admin" asp-controller="Interview" asp-action="OnlineDetails" asp-route-id="@interview.Id">Details</a>
+            }
+            else
+            {
+                <a class="btn btn-outline-primary" asp-area="Admin" asp-controller="Interview" asp-action="InPersonDetails" asp-route-id="@interview.Id">Details</a>
+            }
+        </td>
+    </tr>
+}

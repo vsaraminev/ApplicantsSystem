@@ -1,0 +1,56 @@
+﻿@model IEnumerable<InterviewerInterviewsListingModel>
+@{
+    ViewData["Title"] = "Interviews";
+}
+@{
+    var counter = 1;
+}
+<br />
+<h2>@ViewData["Title"]</h2>
+<br />
+<table class="table table-bordered table-hover text-center">
+    <thead>
+        <tr>
+            <th>
+                #
+            </th>
+            <th>
+                Applicant Name
+            </th>
+            <th>
+                Date
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var interview in Model)
+        {
+            <tr>
+                <td>
+                    @counter
+                </td>
+                <td>
+                    @interview.Interview.Applicant.FirstName &nbsp; @interview.Interview.Applicant.LastName
+                </td>
+                <td>
+                    @interview.Interview.StartTime.ToLongDateString()
+                </td>
+                <td>
+                    @if (interview.Interview.Feedbacks.Any(f => f.Context != null && f.InterviewerId == interview.InterviewerId))
+                    {
+                        <a class="btn btn-outline-primary" asp-area="Interviewer" asp-controller="Feedbacks" asp-action="Details" asp-route-id="@interview.InterviewId">Details</a>
+                    }
+                    else
+                    {
+                        <a class="btn btn-outline-primary" asp-area="Interviewer" asp-controller="Feedbacks" asp-action="LeaveFeedback" asp-route-InterviewId="@interview.InterviewId">Leave Feedback</a>
+                    }
+                </td>
+            </tr>
+
+            counter++;
+        }
+    </tbody>
+</table>

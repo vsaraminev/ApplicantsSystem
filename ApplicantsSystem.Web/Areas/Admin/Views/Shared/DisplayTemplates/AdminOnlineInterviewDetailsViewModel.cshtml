@@ -1,0 +1,37 @@
+﻿@model AdminOnlineInterviewDetailsViewModel
+
+<tr>
+    <td>
+        @Model.ApplicantName
+    </td>
+    <td>
+        @Model.StartTime
+    </td>
+    <td>
+        @Model.Test.Name
+    </td>
+    <td>
+        @Model.Test.Url
+    </td>
+    <td>
+        @if (Model.Result.ResultUrl == null)
+        {
+            <form method="post" asp-area="Admin" asp-controller="Interview" asp-action="SetTestResult">
+                <div class="row">
+                    <div class="col-md-8">
+                        <input name="ResultUrl" class="form-control" />
+                        <input type="hidden" name="ApplicantId" value="@Model.ApplicantId" />
+                        <input type="hidden" name="InterviewId" value="@Model.Id" />
+                    </div>
+                    <div class="col-md-4">
+                        <input class="btn btn-success" type="submit" value="Set Result" />
+                    </div>
+                </div>
+            </form>
+        }
+        else
+        {
+            @Model.Result.ResultUrl
+        }
+    </td>
+</tr>

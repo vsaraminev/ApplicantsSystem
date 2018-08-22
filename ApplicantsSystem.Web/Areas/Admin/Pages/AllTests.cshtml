@@ -1,0 +1,37 @@
+﻿@page
+@using Admin.Pages
+@model AllTests
+
+@{
+    ViewData["Title"] = "Tests Administration";
+}
+<br />
+<h2 class="text-center">@ViewData["Title"]</h2>
+<br />
+<div class="text-center">
+    <a class="btn btn-success" style="margin-right: 15px" asp-area="Interviewer" asp-controller="Tests" asp-action="Create">Create New Test</a>
+</div>
+<br />
+<h3 class="text-center">All Tests</h3>
+<br />
+<table class="table table-bordered table-hover text-center">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Details
+            </th>
+            <th>
+                Edit Description
+            </th>
+            <th>
+                Remove
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @Html.DisplayFor(model => model.Tests)
+    </tbody>
+</table>

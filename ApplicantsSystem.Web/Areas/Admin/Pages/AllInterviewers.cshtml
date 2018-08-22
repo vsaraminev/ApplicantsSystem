@@ -1,0 +1,37 @@
+﻿@page
+@model AllInterviewersModel
+@{
+}
+@{
+    ViewData["Title"] = "Interviewers Administration";
+}
+<br />
+<h2 class="text-center">@ViewData["Title"]</h2>
+<br />
+<div class="text-center">
+    <a class="btn btn-success" style="margin-right: 15px" asp-area="Admin" asp-controller="Interviewers" asp-action="Create">Create New Interviewer</a>
+</div>
+<br />
+<h3 class="text-center">All Interviewers</h3>
+<br />
+<table class="table table-bordered table-hover text-center">
+    <thead>
+        <tr>
+            <th>
+                First Name
+            </th>
+            <th>
+                Last Name
+            </th>
+            <th>
+                Details
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @Html.DisplayFor(m => m.Interviewers)
+    </tbody>
+</table>

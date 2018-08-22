@@ -1,0 +1,16 @@
+﻿@model AllInterviewersListingViewModelRazor
+
+<tr>
+    <td>
+        @Model.FirstName
+    </td>
+    <td>
+        @Model.LastName
+    </td>
+    <td>
+        <a class="btn btn-outline-primary" asp-area="Admin" asp-page="/Details" asp-route-id="@Model.Id">Details</a>
+    </td>
+    <td>
+        <a class="btn btn-danger" asp-area="Admin" asp-controller="Interviewers" asp-action="Remove" asp-route-id="@Model.Id">Remove</a>
+    </td>
+</tr>

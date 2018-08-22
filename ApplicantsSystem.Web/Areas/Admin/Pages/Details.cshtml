@@ -1,0 +1,44 @@
+﻿@page
+@model DetailsModel
+@{
+    ViewData["Title"] = $"Details for {Model.Interviewer.FirstName} {Model.Interviewer.LastName}";
+}
+<br />
+<h2>@ViewData["Title"]</h2>
+<br />
+<table class="table table-bordered  table-hover text-center">
+    <thead>
+        <tr>
+            <th>
+                First Name
+            </th>
+            <th>
+                Last Name
+            </th>
+            <th>
+                Email
+            </th>
+            <th>
+                Interviews
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                @Model.Interviewer.FirstName
+            </td>
+            <td>
+                @Model.Interviewer.LastName
+            </td>
+            <td>
+                @Model.Interviewer.Email
+            </td>
+            <td>
+                @Model.Interviews.Count()
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<a asp-controller="Interviewers" asp-action="All" class="btn btn-outline-primary">Back</a>

@@ -1,0 +1,17 @@
+﻿@model InterviewerTestEditBindingModel
+
+@{
+    ViewData["Title"] = $"Edit {Model.Name} test";
+}
+<br/>
+<h2>@ViewData["Title"]</h2>
+<br/>
+<form method="post" asp-area="Interviewer" asp-controller="Tests" asp-action="Edit" asp-route-id="@Model.Id">
+    @Html.EditorForModel()
+    <br/>
+    <div class="form-group">
+        <div class="col-sm-5">
+            <input type="submit" value="Edit" class="btn btn-warning"/>
+        </div>
+    </div>
+</form>
