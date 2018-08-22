@@ -18,7 +18,7 @@
     using Services.Admin.Implementation;
     using Services.Interviewer;
     using Services.Interviewer.Implementation;
-    using System;
+    using static ApplicantsSystem.Common.Constants.WebConstants;
 
     public class Startup
     {
@@ -38,6 +38,7 @@
                 options.CheckConsentNeeded = context => true;
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
+
 
             services.AddDbContext<ApplicantsSystemDbContext>(options =>
                 options.UseSqlServer(
@@ -60,11 +61,23 @@
 
             services.AddSingleton<IEmailSender, SendGridEmailSender>();
 
-            services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+            services.AddAuthorization(options =>
+            {
+                options.AddPolicy(AdminPagesPolicy, builder => builder.RequireRole(AdministratorRole).Build());
+            });
+
+            //services.AddMemoryCache();
+
+            services.AddMvc()
+                .AddRazorPagesOptions(options =>
+                {
+                    options.Conventions.AuthorizeAreaFolder(AdminArea, "/", AdminPagesPolicy);
+                })
+                .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IServiceProvider serviceProvider)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             app.SeedDatabase();
 
@@ -84,14 +97,9 @@
             app.UseCookiePolicy();
 
             app.UseAuthentication();
-
+            
             app.UseMvc(routes =>
             {
-                //routes.MapRoute(
-                //    name:"Identity",
-                //    template:"Identity/Account/Login",
-                //    defaults: new {area = "Identity", controller="Account", action="Login"}
-                //    );
                 routes.MapRoute(
                     name: "area",
                     template: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
@@ -107,6 +115,8 @@
             services.AddScoped<IAdminInterviewerService, AdminInterviewerService>();
             services.AddScoped<IInterviewerTestsService, InterviewerTestsService>();
             services.AddScoped<IAdminInterviewService, AdminInterviewService>();
+            services.AddScoped<IInterviewerFeedbacksService, InterviewerFeedbacksService>();
+            //services.AddScoped<IHtmlService, IHtmlService>();
         }
     }
 }

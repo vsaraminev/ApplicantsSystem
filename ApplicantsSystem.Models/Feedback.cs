@@ -5,16 +5,17 @@
 
     public class Feedback
     {
-        public int Id { get; set; }
-
         [Required]
-        [MinLength(DataConstants.FeedbackContextMinLength)]
-        [MaxLength(DataConstants.FeedbackContextMaxLength)]
         public int InterviewId { get; set; }
 
-        [Required]
         public Interview Interview { get; set; }
 
+        public string InterviewerId { get; set; }
+
+        public User Interviewer { get; set; }
+
+        [MinLength(DataConstants.FeedbackContextMinLength)]
+        [MaxLength(DataConstants.FeedbackContextMaxLength)]
         public string Context { get; set; }
 
         [Range(DataConstants.FeedbackMinScore, DataConstants.FeedbackMaxScore)]

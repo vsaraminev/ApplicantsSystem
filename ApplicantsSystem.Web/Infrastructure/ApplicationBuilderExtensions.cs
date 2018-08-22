@@ -15,12 +15,12 @@
         {
             using (var serviceScope = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>().CreateScope())
             {
-                serviceScope.ServiceProvider.GetService<ApplicantsSystemDbContext>().Database.Migrate();
+                //serviceScope.ServiceProvider.GetService<ApplicantsSystemDbContext>().Database.Migrate();
 
                 var userManager = serviceScope.ServiceProvider.GetService<UserManager<User>>();
 
                 var roleManager = serviceScope.ServiceProvider.GetService<RoleManager<IdentityRole>>();
-
+                
                 Task
                     .Run(async () =>
                     {

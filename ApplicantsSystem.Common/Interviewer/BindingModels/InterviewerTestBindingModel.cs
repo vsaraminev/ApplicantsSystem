@@ -12,6 +12,10 @@
         [MaxLength(TestNameMaxLength)]
         public string Name { get; set; }
 
+        [MinLength(TestDescriptionMinLength)]
+        [MaxLength(TestDescriptionMaxLength)]
+        public string Description { get; set; }
+
         [Url]
         public string Url { get; set; }
     }

@@ -1,9 +1,12 @@
 ﻿namespace ApplicantsSystem.Web.Areas.Admin.Controllers
 {
     using Common.Admin.BindingModels;
+    using Common.Admin.ViewModels;
     using Infrastructure;
     using Microsoft.AspNetCore.Mvc;
     using Services.Admin;
+    using System;
+    using System.Linq;
     using System.Threading.Tasks;
     using static ApplicantsSystem.Common.Constants.WebConstants;
 
@@ -18,9 +21,17 @@
 
         public IActionResult Index()
         {
-            var model = this.applicants.ApplicantsAll();
+            var allApplicants = this.applicants.All();
 
-            return View(model);
+            var model = allApplicants.Where(a => a.CurrentStatus == InInterviewStatusId).ToList();
+
+            var statuses = this.applicants.GetStatuses();
+
+            return View(new AdminApplicantIndexViewModel
+            {
+                Applicants = model,
+                Statuses = statuses
+            });
         }
 
         [HttpGet]
@@ -48,25 +59,68 @@
         {
             var applicant = await this.applicants.Details(id);
 
+            if (applicant == null)
+            {
+                return BadRequest();
+            }
+
             return View(applicant);
         }
 
-        public async Task<IActionResult> Hire(int id)
+        [HttpPost]
+        public async Task<IActionResult> ChangeStatus(AdminChangeApplicantsStatus model)
         {
-            await this.applicants.Hire(id);
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction(nameof(Index));
+            }
 
-            TempData.AddSuccessMessage(HireApplicantMessage);
+            try
+            {
+                await this.applicants.ChangeStatus(model);
+            }
+            catch (Exception e)
+            {
+                if (e.InnerException is InvalidOperationException)
+                {
+                    return RedirectToAction(nameof(ChangeStatus));
+                }
 
-            return this.RedirectToAction(nameof(Index));
+                throw e;
+            }
+
+            TempData.AddSuccessMessage(ChangeApplicantStatusMessage);
+
+            return RedirectToAction(nameof(Index));
         }
 
-        public async Task<IActionResult> Remove(int id)
+        public async Task<IActionResult> GetStatuses(int id)
         {
-            await this.applicants.Remove(id);
+            var statuses = await this.applicants.GetStatuses(id);
 
-            TempData.AddSuccessMessage(RemoveApplicantMessage);
+            return View(statuses);
+        }
 
-            return this.RedirectToAction(nameof(Index));
+        public async Task<IActionResult> GetInterviews(int id)
+        {
+            var interviews = await this.applicants.GetInterviews(id);
+
+            return View(interviews);
+        }
+
+        public IActionResult HiredOrRejected(int page = 1)
+        {
+            var allApplicants = this.applicants.All();
+
+            var model = allApplicants.Where(a => a.CurrentStatus != InInterviewStatusId).ToList();
+
+            var statuses = this.applicants.GetStatuses();
+
+            return View(new AdminApplicantIndexViewModel
+            {
+                Applicants = model,
+                Statuses = statuses
+            });
         }
     }
 }

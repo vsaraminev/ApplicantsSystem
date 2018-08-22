@@ -5,6 +5,8 @@
 <br />
 <h2>@ViewData["Title"]</h2>
 <br />
+
+@*@Html.EditorFor()*@
 <div class="row">
     <div class="col-md-4">
         <form method="post">
@@ -14,6 +16,11 @@
                 <label asp-for="Name"></label>
                 <input asp-for="Name" class="form-control" />
                 <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Description"></label>
+                <textarea asp-for="Description" rows="5" class="form-control"></textarea>
+                <span asp-validation-for="Description" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Url"></label>

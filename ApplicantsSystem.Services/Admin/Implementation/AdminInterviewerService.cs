@@ -29,27 +29,29 @@
 
         public async Task Create(CreateInterviewerBindingModel model)
         {
-            var interviewer = this.Mapper.Map<User>(model);
+            var interviewerUser = new User
+            {
+                Email = model.Email,
+                UserName = model.Email,
+                FirstName = model.FirstName,
+                LastName = model.LastName
+            };
 
-            await this.userManager.CreateAsync(interviewer, model.Password);
-
-            await this.userManager.AddToRoleAsync(interviewer, InterviewerRole);
-
-            this.DbContext.Users.Add(interviewer);
-            this.DbContext.SaveChanges();
+            await userManager.CreateAsync(interviewerUser, model.Password);
+            await userManager.AddToRoleAsync(interviewerUser, InterviewerRole);
         }
-        
+
         public async Task<AdminInterviewerDetailsViewModel> Details(string id)
         {
             var interviewer = await this.userManager.FindByIdAsync(id);
-            
+
             return this.Mapper.Map<AdminInterviewerDetailsViewModel>(interviewer);
         }
-
+        
         public async Task Remove(string id)
         {
             var interviewer = await this.userManager.FindByIdAsync(id);
-            
+
             this.DbContext.Users.Remove(interviewer);
 
             await this.DbContext.SaveChangesAsync();

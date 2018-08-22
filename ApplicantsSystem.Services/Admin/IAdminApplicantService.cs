@@ -2,19 +2,26 @@
 {
     using Common.Admin.BindingModels;
     using Common.Admin.ViewModels;
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using System.Collections.Generic;
     using System.Threading.Tasks;
 
     public interface IAdminApplicantService
     {
-        IEnumerable<AdminApplicantListingViewModel> ApplicantsAll();
-
+        IEnumerable<AdminApplicantListingViewModel> All();
+        
         Task Create(CreateApplicantBindingModel model);
 
-        Task <AdminApplicantDetailsViewModel> Details(int id);
+        Task<AdminApplicantDetailsViewModel> Details(int id);
 
-        Task Hire(int id);
+        Task<AdminApplicantInterviewsViewModel> GetInterviews(int id);
 
-        Task Remove(int id);
+        Task<IEnumerable<AdminApplicantStatusesViewModel>> GetStatuses(int id);
+
+        Task ChangeStatus(AdminChangeApplicantsStatus model);
+        
+        List<SelectListItem> GetStatuses();
+
+        List<SelectListItem> GetApplicants();
     }
 }

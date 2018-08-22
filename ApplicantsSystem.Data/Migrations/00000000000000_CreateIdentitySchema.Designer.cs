@@ -1,10 +1,10 @@
 namespace ApplicantsSystem.Data.Migrations
 {
+    using System;
     using Microsoft.EntityFrameworkCore;
     using Microsoft.EntityFrameworkCore.Infrastructure;
     using Microsoft.EntityFrameworkCore.Metadata;
     using Microsoft.EntityFrameworkCore.Migrations;
-    using System;
 
     [DbContext(typeof(ApplicantsSystemDbContext))]
     [Migration("00000000000000_CreateIdentitySchema")]

@@ -5,7 +5,7 @@
     using static Common.Constants.WebConstants;
 
     [Area(InterviewerArea)]
-    [Authorize(Roles = InterviewerRole)]
+    [Authorize(Roles = InterviewerRole + "," + AdministratorRole)]
     public abstract class InterviewerController : Controller
     {
     }

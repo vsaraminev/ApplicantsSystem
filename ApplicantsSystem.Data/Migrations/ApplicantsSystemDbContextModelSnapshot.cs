@@ -19,11 +19,34 @@ namespace ApplicantsSystem.Data.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("ApplicantsSystem.Models.AplicantStatus", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("ApplicantId");
+
+                    b.Property<int>("StatusId");
+
+                    b.Property<DateTime>("Time");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ApplicantId");
+
+                    b.HasIndex("StatusId");
+
+                    b.ToTable("AplicantStatuses");
+                });
+
             modelBuilder.Entity("ApplicantsSystem.Models.Applicant", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("CurrentStatus");
 
                     b.Property<string>("Email")
                         .IsRequired();
@@ -31,8 +54,6 @@ namespace ApplicantsSystem.Data.Migrations
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(50);
-
-                    b.Property<bool>("IsHired");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -52,20 +73,18 @@ namespace ApplicantsSystem.Data.Migrations
 
             modelBuilder.Entity("ApplicantsSystem.Models.Feedback", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                    b.Property<int>("InterviewId");
 
-                    b.Property<string>("Context");
+                    b.Property<string>("InterviewerId");
 
-                    b.Property<int>("InterviewId")
+                    b.Property<string>("Context")
                         .HasMaxLength(200);
 
                     b.Property<int>("Score");
 
-                    b.HasKey("Id");
+                    b.HasKey("InterviewId", "InterviewerId");
 
-                    b.HasIndex("InterviewId");
+                    b.HasIndex("InterviewerId");
 
                     b.ToTable("Feedbacks");
                 });
@@ -78,11 +97,11 @@ namespace ApplicantsSystem.Data.Migrations
 
                     b.Property<int>("ApplicantId");
 
-                    b.Property<DateTime>("EndTime");
+                    b.Property<DateTime?>("EndTime");
 
                     b.Property<DateTime>("StartTime");
 
-                    b.Property<int>("TestId");
+                    b.Property<int?>("TestId");
 
                     b.HasKey("Id");
 
@@ -113,17 +132,55 @@ namespace ApplicantsSystem.Data.Migrations
                     b.ToTable("InterviewInterviewers");
                 });
 
+            modelBuilder.Entity("ApplicantsSystem.Models.Result", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("InterviewId");
+
+                    b.Property<string>("ResultUrl");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("InterviewId")
+                        .IsUnique();
+
+                    b.ToTable("Results");
+                });
+
+            modelBuilder.Entity("ApplicantsSystem.Models.Status", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Statuses");
+
+                    b.HasData(
+                        new { Id = 1, Name = "InInterview" },
+                        new { Id = 2, Name = "Hired" },
+                        new { Id = 3, Name = "Rejected" }
+                    );
+                });
+
             modelBuilder.Entity("ApplicantsSystem.Models.Test", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                    b.Property<string>("Description")
+                        .HasMaxLength(100);
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(100);
-
-                    b.Property<string>("ResultUrl");
 
                     b.Property<string>("Url");
 
@@ -301,11 +358,29 @@ namespace ApplicantsSystem.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("ApplicantsSystem.Models.AplicantStatus", b =>
+                {
+                    b.HasOne("ApplicantsSystem.Models.Applicant", "Applicant")
+                        .WithMany("Statuses")
+                        .HasForeignKey("ApplicantId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ApplicantsSystem.Models.Status", "Status")
+                        .WithMany("Applicants")
+                        .HasForeignKey("StatusId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
             modelBuilder.Entity("ApplicantsSystem.Models.Feedback", b =>
                 {
                     b.HasOne("ApplicantsSystem.Models.Interview", "Interview")
                         .WithMany("Feedbacks")
                         .HasForeignKey("InterviewId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("ApplicantsSystem.Models.User", "Interviewer")
+                        .WithMany("Feedbacks")
+                        .HasForeignKey("InterviewerId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
@@ -318,8 +393,7 @@ namespace ApplicantsSystem.Data.Migrations
 
                     b.HasOne("ApplicantsSystem.Models.Test", "Test")
                         .WithMany("Interviews")
-                        .HasForeignKey("TestId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("TestId");
                 });
 
             modelBuilder.Entity("ApplicantsSystem.Models.InterviewInterviewer", b =>
@@ -332,6 +406,14 @@ namespace ApplicantsSystem.Data.Migrations
                     b.HasOne("ApplicantsSystem.Models.User", "Interviewer")
                         .WithMany("Interviews")
                         .HasForeignKey("InterviewerId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("ApplicantsSystem.Models.Result", b =>
+                {
+                    b.HasOne("ApplicantsSystem.Models.Interview", "Interview")
+                        .WithOne("Result")
+                        .HasForeignKey("ApplicantsSystem.Models.Result", "InterviewId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 
