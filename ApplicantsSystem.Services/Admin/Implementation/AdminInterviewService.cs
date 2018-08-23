@@ -62,8 +62,6 @@
 
         public async Task CreateInPerson(CreateInPersonInterviewBindingModel model)
         {
-            //var interview = this.Mapper.Map<Interview>(model);
-
             var firstInterviewer = this.DbContext.Users.Find(model.FirstInterviewerId);
             var secondInterviewer = this.DbContext.Users.Find(model.SecondInterviewerId);
 
@@ -99,6 +97,11 @@
                 .FirstOrDefaultAsync(i => i.Id == id);
 
             var result = await this.DbContext.Results.FirstOrDefaultAsync(i => i.Id == interview.Id);
+
+            if (result == null)
+            {
+                throw new InvalidOperationException("Invalid Identity details.");
+            }
 
             interview.Result = result ?? new Result();
 
