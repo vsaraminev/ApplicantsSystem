@@ -1,9 +1,8 @@
-﻿using ApplicantsSystem.Common.Admin.ViewModels;
-
-namespace ApplicantsSystem.Web.Areas.Admin.Controllers
+﻿namespace ApplicantsSystem.Web.Areas.Admin.Controllers
 {
     using ApplicantsSystem.Models;
     using Common.Admin.BindingModels;
+    using Common.Admin.ViewModels;
     using Data;
     using Infrastructure;
     using Microsoft.AspNetCore.Identity;
@@ -119,7 +118,7 @@ namespace ApplicantsSystem.Web.Areas.Admin.Controllers
 
             await this.interviews.CreateInPerson(model);
 
-            TempData.AddSuccessMessage(InterviewMessage); //TODO better success message!
+            TempData.AddSuccessMessage(InterviewMessage); 
 
             return RedirectToAction(nameof(Index));
         }

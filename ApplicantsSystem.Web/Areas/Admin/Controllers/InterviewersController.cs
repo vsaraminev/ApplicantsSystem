@@ -19,7 +19,6 @@
 
         public async Task<IActionResult> All()
         {
-
             var interviewersModel = await this.interviewers.All();
 
             return View(interviewersModel);
