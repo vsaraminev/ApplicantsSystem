@@ -41,7 +41,7 @@
 
             await this.feedbacks.LeaveFeedback(model, this.User);
 
-            TempData.AddSuccessMessage(String.Format(LeaveFeedbackMessage, model.Interview.Applicant.FirstName, model.Interview.Applicant.LastName));
+            TempData.AddSuccessMessage(LeaveFeedbackMessage);
 
             return RedirectToAction(nameof(Index));
         }

@@ -76,13 +76,19 @@
                     new InterviewInterviewer()
                     {
                         InterviewerId = firstInterviewer.Id
-                    },
-                    new InterviewInterviewer()
-                    {
-                        InterviewerId = secondInterviewer.Id
                     }
                 }
             };
+
+            if (secondInterviewer != null)
+            {
+                interview.Interviewers
+                    .Add(
+                        new InterviewInterviewer()
+                        {
+                            InterviewerId = secondInterviewer.Id
+                        });
+            }
 
             await this.DbContext.Interviews.AddAsync(interview);
             await this.DbContext.SaveChangesAsync();
@@ -97,7 +103,7 @@
                 .FirstOrDefaultAsync(i => i.Id == id);
 
             var result = await this.DbContext.Results.FirstOrDefaultAsync(i => i.Id == interview.Id);
-            
+
             interview.Result = result ?? new Result();
 
             interview.Result.Id = interview.Id;
