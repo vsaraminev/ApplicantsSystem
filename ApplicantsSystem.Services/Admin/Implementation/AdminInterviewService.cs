@@ -97,12 +97,7 @@
                 .FirstOrDefaultAsync(i => i.Id == id);
 
             var result = await this.DbContext.Results.FirstOrDefaultAsync(i => i.Id == interview.Id);
-
-            if (result == null)
-            {
-                throw new InvalidOperationException("Invalid Identity details.");
-            }
-
+            
             interview.Result = result ?? new Result();
 
             interview.Result.Id = interview.Id;
