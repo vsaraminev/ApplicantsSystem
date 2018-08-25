@@ -2,14 +2,15 @@
 {
     using Common.Interviewer.BindingModels;
     using Infrastructure;
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Services.Interviewer;
-    using System;
     using System.Threading.Tasks;
-
     using static ApplicantsSystem.Common.Constants.WebConstants;
 
-    public class FeedbacksController : InterviewerController
+    [Area(InterviewerArea)]
+    [Authorize(Roles = InterviewerRole)]
+    public class FeedbacksController : Controller
     {
         private readonly IInterviewerFeedbacksService feedbacks;
 
