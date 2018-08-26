@@ -1,0 +1,61 @@
+﻿@model AdminApplicantInterviewsViewModel
+@{
+    ViewData["Title"] = $"Interviews for {Model.FirstName} {Model.LastName}";
+    var count = 1;
+}
+<br />
+<h2 class="text-center">@ViewData["Title"]</h2>
+<br />
+@if (Model.Interviews.Any())
+{
+    <table class="table table-bordered  table-hover text-center">
+        <thead>
+            <tr>
+                <th>
+                    #
+                </th>
+                <th>
+                    Date
+                </th>
+                <th>
+                    Interview Type
+                </th>
+                <th>
+                    Details
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var interview in Model.Interviews.OrderBy(i => i.Id))
+            {
+                <tr>
+                    <td>
+                        @count
+                    </td>
+                    <td>
+                        @interview.StartTime.ToLongDateString()
+                    </td>
+                    <td>
+                        @(interview.Interviewers.Count == 0 ? "Online Interview" : "In-Person Interview")
+                    </td>
+                    <td>
+                        @if(interview.Interviewers.Count == 0)
+                        {
+                        <a asp-controller="Interview" asp-action="OnlineDetails" asp-route-id="@interview.Id" class="btn btn-info">Interview Details</a>
+                        }
+                        else
+                        {
+                        <a asp-controller="Interview" asp-action="InPersonDetails" asp-route-id="@interview.Id" class="btn btn-info">Interview Details</a>
+                        }
+                    </td>
+                </tr>
+
+                count++;
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <span>There are no interviews for @Model.FirstName  @Model.LastName.</span>
+}
